@@ -243,7 +243,12 @@
   .ep.locked { opacity: .6; }
   .ep.locked .num { background: var(--surface-2); color: var(--ink-soft); }
   .ep b { display: block; line-height: 1.3; }
-  .ep small { color: var(--ink-soft); font-weight: 700; font-size: 14px; }
+  .ep small { display: block; color: var(--accent); font-weight: 800; font-size: 14px; }
+  .ep { align-items: flex-start; }
+  .ep-desc { display: block; color: var(--ink-soft); font-size: 16px; margin-top: var(--s1); }
+  .ep-sub { justify-self: start; margin-top: var(--s2); }
+  .say-it { font: 700 16px/1 "Nunito", sans-serif; color: var(--ink-soft); }
+  .player .soon.show { font-size: 20px; padding: var(--s3); }
 
   /* ---------- grown-ups ---------- */
   .grownups { background: var(--ink); color: #f6f1ff; }
@@ -300,7 +305,6 @@
       <a href="#friends">Friends</a>
       <a href="#visiting">India</a>
       <a href="#passport">Passport</a>
-      <a href="#word">Word of the Week</a>
       <a href="#watch">Watch</a>
     </nav>
     <a class="btn btn-ghost" href="#grownups">For grown-ups</a>
@@ -313,17 +317,16 @@
   <section class="hero">
     <div class="wrap hero-grid">
       <div class="hero-copy">
-        <span class="eyebrow">Now visiting: India</span>
+        <span class="eyebrow">First stop: India</span>
         <h1>Fly around the world with <span class="hl">Billy!</span></h1>
-        <p class="lead">Billy has friends everywhere. Hop on the plane and visit them. You'll see amazing places, taste yummy food and learn new words.</p>
+        <p class="lead">Billy has friends everywhere. Hop on the plane and visit them! You'll see amazing places, taste yummy food and learn new words.</p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="#watch">▶ Watch the trailer</a>
-          <a class="btn btn-ghost" href="#passport">Open my passport</a>
+          <a class="btn btn-primary" href="https://www.youtube.com/@BillysWorldofFriends" target="_blank" rel="noopener">▶ Watch on YouTube</a>
         </div>
       </div>
       <div class="hero-art">
         <div class="frame float"><img src="images/plane.jpg" alt="Billy's smiling red and white plane flying over snowy mountains" width="720" height="760"></div>
-        <div class="chip"><span class="dot" aria-hidden="true"></span>Next stop: India!</div>
+        <div class="chip"><span class="dot" aria-hidden="true"></span>First stop: India!</div>
       </div>
     </div>
   </section>
@@ -358,7 +361,7 @@
           <img src="images/ajay.jpg" alt="Ajay, a smiling boy with curly hair, talking on the phone" width="720" height="640">
           <div class="friend-body">
             <div>
-              <h3>Ajay</h3>
+              <h3>Ajay <span class="say-it">(say it "AY-jay")</span></h3>
               <p class="friend-tag">Lives in India · Billy's tour guide</p>
             </div>
             <ul class="facts">
@@ -393,7 +396,7 @@
         <button class="flip reveal" type="button" aria-label="Flip the Taj Mahal card">
           <div class="flip-inner">
             <div class="face"><img src="images/card-taj.jpg" alt="The white Taj Mahal with a long reflecting pool" width="556" height="416"><div class="cap"><h3>Taj Mahal</h3><span>Tap me ↻</span></div></div>
-            <div class="face back"><h3>Shiny white stone</h3><p>The Taj Mahal is made of white marble. Building it took more than 20 years!</p><p class="q">Count the tall towers. How many can you see?</p></div>
+            <div class="face back"><h3>Shiny white stone</h3><p>The Taj Mahal is made of white marble. Building the main tomb took about 17 years! It even seems to change color as the sun moves across the sky.</p><p class="q">Count the tall towers. How many can you see?</p></div>
           </div>
         </button>
         <button class="flip reveal" type="button" aria-label="Flip the street food card">
@@ -405,7 +408,7 @@
         <button class="flip reveal" type="button" aria-label="Flip the Diwali card">
           <div class="flip-inner">
             <div class="face"><img src="images/card-diwali.jpg" alt="A family celebrating Diwali with lamps, fireworks and a colorful rangoli" width="556" height="416"><div class="cap"><h3>Diwali</h3><span>Tap me ↻</span></div></div>
-            <div class="face back"><h3>Festival of Lights</h3><p>On Diwali, families light little clay lamps called <b>diyas</b> and make colorful patterns called <b>rangoli</b>.</p><p class="q">What colors would you use for a rangoli?</p></div>
+            <div class="face back"><h3>Festival of Lights</h3><p>On Diwali, families light little clay lamps called <b>diyas</b> and make colorful patterns called <b>rangoli</b>. This year, Diwali was on November 8!</p><p class="q">What colors would you use for a rangoli?</p></div>
           </div>
         </button>
       </div>
@@ -418,44 +421,24 @@
       <div class="section-head reveal">
         <span class="eyebrow">My passport</span>
         <h2>Collect every stamp!</h2>
-        <p class="lead">Billy gets a new stamp each time he visits a friend. Where will he fly next?</p>
+        <p class="lead">Billy gets a new stamp each time he visits a friend. Guess who he'll visit next!</p>
       </div>
       <div class="passport-book reveal">
         <div class="stamps">
           <button class="stamp home" type="button" data-msg="This is home! Billy lives in China."><span><span class="flag" aria-hidden="true"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#de2910"/><polygon fill="#ffde00" points="5,2 6.2,5.4 9.8,5.4 6.9,7.6 8,11 5,8.9 2,11 3.1,7.6 0.2,5.4 3.8,5.4"/><circle cx="11" cy="2.5" r="0.9" fill="#ffde00"/><circle cx="13" cy="4.5" r="0.9" fill="#ffde00"/><circle cx="13" cy="7.5" r="0.9" fill="#ffde00"/><circle cx="11" cy="9.5" r="0.9" fill="#ffde00"/></svg></span><b>China</b><small>Home</small></span></button>
-          <button class="stamp done" type="button" data-msg="Stamped! Billy is visiting Ajay in India right now."><span><span class="flag" aria-hidden="true"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="30" height="6.67" fill="#ff9933"/><rect y="13.33" width="30" height="6.67" fill="#138808"/><circle cx="15" cy="10" r="2.6" fill="none" stroke="#000080" stroke-width="0.6"/><circle cx="15" cy="10" r="0.6" fill="#000080"/></svg></span><b>India</b><small>Visiting now!</small></span></button>
-          <button class="stamp mystery" type="button"><span><span class="flag" aria-hidden="true">?</span><b>Mystery</b><small>Coming soon</small></span></button>
-          <button class="stamp mystery" type="button"><span><span class="flag" aria-hidden="true">?</span><b>Mystery</b><small>Coming soon</small></span></button>
-          <button class="stamp mystery" type="button"><span><span class="flag" aria-hidden="true">?</span><b>Mystery</b><small>Coming soon</small></span></button>
-          <button class="stamp mystery" type="button"><span><span class="flag" aria-hidden="true">?</span><b>Mystery</b><small>Coming soon</small></span></button>
+          <button class="stamp done" type="button" data-msg="Stamped! Billy visited his friend Ajay in India."><span><span class="flag" aria-hidden="true"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="30" height="6.67" fill="#ff9933"/><rect y="13.33" width="30" height="6.67" fill="#138808"/><circle cx="15" cy="10" r="2.6" fill="none" stroke="#000080" stroke-width="0.6"/><circle cx="15" cy="10" r="0.6" fill="#000080"/></svg></span><b>India</b><small>Visited!</small></span></button>
+          <button class="stamp mystery" type="button"><span><span class="flag" aria-hidden="true">?</span><b>Mystery friend</b><small>Coming soon</small></span></button>
+          <button class="stamp mystery" type="button"><span><span class="flag" aria-hidden="true">?</span><b>Mystery friend</b><small>Coming soon</small></span></button>
+          <button class="stamp mystery" type="button"><span><span class="flag" aria-hidden="true">?</span><b>Mystery friend</b><small>Coming soon</small></span></button>
+          <button class="stamp mystery" type="button"><span><span class="flag" aria-hidden="true">?</span><b>Mystery friend</b><small>Coming soon</small></span></button>
         </div>
         <p class="passport-note" id="passport-note" aria-live="polite">Tap a stamp!</p>
       </div>
     </div>
   </section>
 
-  <!-- WORD OF THE WEEK -->
-  <section id="word">
-    <div class="wrap">
-      <div class="word-card reveal">
-        <div>
-          <span class="eyebrow">Word of the week</span>
-          <p class="big-word" lang="hi-Latn">Namaste</p>
-        </div>
-        <div class="word-meta">
-          <p class="lead">In India, people say <b>namaste</b> to say hello. You press your hands together and give a little bow.</p>
-          <div class="how" aria-label="How to say it"><span>nuh</span><span>muh</span><span>stay</span></div>
-          <button class="say" data-say="नमस्ते" data-lang="hi-IN" type="button">
-            <span class="icon" aria-hidden="true">🔊</span>
-            <span><strong>Hear it</strong><small>Then say it with Billy!</small></span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- WATCH -->
-  <section id="watch" style="padding-top:0">
+  <section id="watch">
     <div class="wrap">
       <div class="section-head reveal">
         <span class="eyebrow">Watch</span>
@@ -464,14 +447,13 @@
       <div class="ep-grid">
         <div class="player reveal" id="player">
           <img src="images/plane.jpg" alt="" width="720" height="760">
-          <button class="play" type="button" aria-label="Play the trailer">▶</button>
-          <p class="soon" id="soon">The video is coming soon!</p>
+          <button class="play" type="button" aria-label="Play Episode 1" hidden>▶</button>
+          <p class="soon show" id="soon">▶ Episode 1 is coming soon!</p>
         </div>
         <div class="ep-list reveal">
-          <div class="ep"><span class="num">★</span><span><b>Trailer: Billy flies to India!</b><small>30 seconds</small></span></div>
-          <div class="ep locked"><span class="num">1</span><span><b>Episode 1: Hello, India!</b><small>Coming soon</small></span></div>
-          <div class="ep locked"><span class="num">2</span><span><b>Episode 2: The Taj Mahal</b><small>Coming soon</small></span></div>
-          <div class="ep locked"><span class="num">3</span><span><b>Episode 3: Diwali lights</b><small>Coming soon</small></span></div>
+          <div class="ep"><span class="num">1</span><span><b>Billy Flies to India to Meet Ajay!</b><small>Coming soon</small><span class="ep-desc">Billy flies to India, sees the Taj Mahal, tries spicy street food and celebrates Diwali with Ajay.</span></span></div>
+          <div class="ep locked"><span class="num">2</span><span><b>Who's next?</b><small>Coming soon</small><span class="ep-desc">A new friend, a new country, and a new way to say hello.</span></span></div>
+          <a class="btn btn-primary ep-sub" href="https://www.youtube.com/@BillysWorldofFriends" target="_blank" rel="noopener">▶ Subscribe on YouTube</a>
         </div>
       </div>
     </div>
@@ -483,11 +465,12 @@
       <div class="section-head" style="margin-bottom:0">
         <span class="eyebrow">For grown-ups</span>
         <h2>Hi, parents and teachers!</h2>
-        <p class="lead">This part of the site is for adults. It has activity ideas, printables and our recommended books and toys.</p>
+        <p class="lead">This part of the site is for adults. It has activity ideas, printables and books we love.</p>
       </div>
 
+      <noscript><style>#gate{display:none!important}.gu-content{display:grid!important}</style></noscript>
       <div class="gate" id="gate">
-        <p><b>Grown-up check:</b> what is <span id="qa"></span> + <span id="qb"></span>?</p>
+        <p><b>Grown-up check:</b> what is <span id="qa">7</span> + <span id="qb">6</span>?</p>
         <form id="gate-form" autocomplete="off">
           <label class="sr" for="gate-answer">Answer</label>
           <input id="gate-answer" inputmode="numeric" pattern="[0-9]*" maxlength="3">
@@ -502,7 +485,7 @@
             <h3>What kids learn</h3>
             <ul>
               <li>Countries on a map, and where they are</li>
-              <li>A greeting in a new language every trip</li>
+              <li>A greeting in a new language on every trip</li>
               <li>Famous places, foods and festivals</li>
               <li>Kindness and curiosity about other cultures</li>
             </ul>
@@ -515,16 +498,18 @@
           <div class="gu-card">
             <h3>Billy's bookshelf</h3>
             <p>Books and toys we love for little explorers.</p>
-            <!-- Replace these with your affiliate links once you're approved for a program. -->
-            <div class="pick"><span>Kids' picture atlas</span><span style="color:var(--gold);font-weight:800;font-size:16px">Coming soon</span></div>
-            <div class="pick"><span>Diwali picture book</span><span style="color:var(--gold);font-weight:800;font-size:16px">Coming soon</span></div>
-            <div class="pick"><span>Kids' world puzzle map</span><span style="color:var(--gold);font-weight:800;font-size:16px">Coming soon</span></div>
-            <p class="disclosure">Some links on this page are affiliate links. If you buy through them, we may earn a small commission at no extra cost to you. We only recommend things we'd share with our own kids.</p>
+            <p><b style="color:#fff">Coming soon.</b></p>
+            <!-- When the bookshelf has real affiliate links, add them above and un-comment this line:
+            <p class="disclosure">Some links may be affiliate links, which means we may earn a small commission at no cost to you.</p>
+            -->
           </div>
         </div>
         <div class="gu-card">
-          <h3>Our privacy promise</h3>
-          <p>This site has no ads, no sign-ups, no comments and no tracking. We don't collect any information from children. Have an idea for Billy's next trip? A contact email is coming soon.</p>
+          <h3>About this show</h3>
+          <p>Billy's World of Friends is animated with AI tools and written and checked by a real person. This site doesn't collect any information from children.</p>
+          <!-- Add your contact email here before un-commenting:
+          <p>Questions? Email us at <a href="mailto:YOUR-EMAIL" style="color:var(--gold)">YOUR-EMAIL</a></p>
+          -->
         </div>
       </div>
     </div>
@@ -541,8 +526,9 @@
 <script>
   /* =========  EDIT THESE  ========= */
   const SITE_CONFIG = {
-    // The part after "v=" in your YouTube link, e.g. "dQw4w9WgXcQ". Leave empty until the video is live.
-    trailerVideoId: ""
+    // Episode 1's YouTube video ID: the part after "v=" in its link (e.g. "dQw4w9WgXcQ").
+    // Leave empty until the video is live; the player shows "Episode 1 is coming soon!" until then.
+    episode1VideoId: ""
   };
 
   // Speak a word (uses the device's built-in voices; nothing is sent to us)
@@ -576,25 +562,30 @@
     note.textContent = s.dataset.msg || mysteryMsgs[m++ % mysteryMsgs.length];
   }));
 
-  // Video: loads only when tapped (privacy-enhanced mode, no cookies until play)
+  // Episode 1 player: shows "coming soon" until a video ID is set above, then loads only when tapped
+  // (privacy-enhanced YouTube mode, no cookies until play)
   const player = document.getElementById('player');
-  player.querySelector('.play').addEventListener('click', () => {
-    if (!SITE_CONFIG.trailerVideoId) { document.getElementById('soon').classList.add('show'); return; }
+  const playBtn = player.querySelector('.play');
+  if (SITE_CONFIG.episode1VideoId) {
+    playBtn.hidden = false;
+    document.getElementById('soon').classList.remove('show');
+  }
+  playBtn.addEventListener('click', () => {
     const f = document.createElement('iframe');
-    f.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(SITE_CONFIG.trailerVideoId) + '?autoplay=1&rel=0';
-    f.title = "Billy's World of Friends trailer";
+    f.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(SITE_CONFIG.episode1VideoId) + '?autoplay=1&rel=0';
+    f.title = "Billy's World of Friends, Episode 1";
     f.allow = 'autoplay; encrypted-media; picture-in-picture';
     f.allowFullscreen = true;
     player.replaceChildren(f);
   });
 
-  // Grown-up gate
-  const qa = 6 + Math.floor(Math.random() * 7), qb = 5 + Math.floor(Math.random() * 7);
-  document.getElementById('qa').textContent = qa;
-  document.getElementById('qb').textContent = qb;
+  // Grown-up gate (the page ships with 7 + 6 so the question is never blank; this picks new numbers)
+  const qaEl = document.getElementById('qa'), qbEl = document.getElementById('qb');
+  qaEl.textContent = 6 + Math.floor(Math.random() * 7);
+  qbEl.textContent = 5 + Math.floor(Math.random() * 7);
   document.getElementById('gate-form').addEventListener('submit', e => {
     e.preventDefault();
-    if (parseInt(document.getElementById('gate-answer').value, 10) === qa + qb) {
+    if (parseInt(document.getElementById('gate-answer').value, 10) === Number(qaEl.textContent) + Number(qbEl.textContent)) {
       document.getElementById('gate').hidden = true;
       document.getElementById('gu-content').classList.add('open');
     } else {
