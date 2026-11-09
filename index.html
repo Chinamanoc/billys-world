@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Billy's World of Friends</title>
+<meta name="description" content="Fly around the world with Billy as he visits his friends! Short, cheerful videos that teach kids ages 4–8 about places, food, festivals and words from every corner of the globe.">
+<meta property="og:title" content="Billy's World of Friends">
+<meta property="og:description" content="Fly around the world with Billy as he visits his friends.">
+<meta property="og:image" content="images/plane.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  /* =========  EDIT THESE LINKS  ========= */
+  /* (also see SITE_CONFIG in the script at the bottom) */
+
+  :root {
+    --bg: #fff8ee;
+    --surface: #ffffff;
+    --surface-2: #fdf0dc;
+    --ink: #2a2238;
+    --ink-soft: #5f566e;
+    --line: rgba(42, 34, 56, 0.12);
+    --accent: #d93a2b;        /* Billy red */
+    --accent-ink: #ffffff;
+    --accent-soft: #fde3dc;
+    --gold: #f2b230;          /* highlight only */
+    --sky: #dff1fb;
+    --shadow: 0 1px 2px rgba(42,34,56,.06), 0 8px 24px rgba(42,34,56,.08);
+    --shadow-lift: 0 2px 4px rgba(42,34,56,.08), 0 16px 32px rgba(42,34,56,.12);
+
+    --ease-out-lux: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-pop: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease-std: cubic-bezier(0.25, 1, 0.5, 1);
+
+    /* spacing scale (8px based) */
+    --s1: 4px; --s2: 8px; --s3: 16px; --s4: 24px; --s5: 32px; --s6: 48px; --s7: 64px; --s8: 96px;
+    --radius: 24px;
+    --radius-sm: 16px;
+    --wrap: 1120px;
+  }
+
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 500 18px/1.6 "Nunito", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; }
+  h1, h2, h3 { font-family: "Fredoka", "Nunito", sans-serif; line-height: 1.1; margin: 0; text-wrap: balance; }
+  h1 { font-size: clamp(40px, 7vw, 72px); font-weight: 700; letter-spacing: -0.01em; }
+  h2 { font-size: clamp(32px, 4.5vw, 48px); font-weight: 700; }
+  h3 { font-size: 24px; font-weight: 600; }
+  p { margin: 0; text-wrap: pretty; }
+  .lead { font-size: 20px; color: var(--ink-soft); max-width: 34em; }
+  .eyebrow {
+    display: inline-block; font: 800 14px/1 "Nunito", sans-serif; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--accent); background: var(--accent-soft); padding: var(--s2) var(--s3); border-radius: 999px;
+  }
+  .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 var(--s3); }
+  @media (min-width: 720px) { .wrap { padding: 0 var(--s5); } }
+  section { padding: var(--s7) 0; }
+  @media (min-width: 720px) { section { padding: var(--s8) 0; } }
+  .section-head { display: grid; gap: var(--s3); margin-bottom: var(--s5); max-width: 40em; justify-items: start; }
+
+  /* ---------- buttons ---------- */
+  .btn {
+    display: inline-flex; align-items: center; gap: var(--s2);
+    font: 800 18px/1 "Nunito", sans-serif; text-decoration: none; cursor: pointer;
+    padding: var(--s3) var(--s4); border-radius: 999px; border: 2px solid transparent;
+    transition: transform 200ms var(--ease-pop), box-shadow 200ms var(--ease-std), background-color 200ms var(--ease-std);
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn:active { transform: translateY(0) scale(.98); }
+  .btn:focus-visible, button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+  .btn-primary { background: var(--accent); color: var(--accent-ink); box-shadow: 0 4px 0 #a92718; }
+  .btn-primary:hover { box-shadow: 0 6px 0 #a92718; }
+  .btn-ghost { background: var(--surface); border-color: var(--line); color: var(--ink); }
+  .btn-ghost:hover { box-shadow: var(--shadow); }
+
+  /* ---------- header ---------- */
+  header.top {
+    position: sticky; top: 0; z-index: 20;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); height: 64px; }
+  .logo { display: flex; align-items: center; gap: var(--s2); text-decoration: none; font: 700 20px/1 "Fredoka", sans-serif; white-space: nowrap; }
+  .logo-mark { width: 36px; height: 36px; border-radius: 50%; background: var(--accent); display: grid; place-items: center; color: #fff; font-size: 18px; }
+  nav.links { display: none; gap: var(--s4); }
+  nav.links a { text-decoration: none; font-weight: 800; color: var(--ink-soft); font-size: 16px; transition: color 200ms var(--ease-std); }
+  nav.links a:hover { color: var(--accent); }
+  @media (min-width: 880px) { nav.links { display: flex; } }
+  .top .btn { padding: var(--s2) var(--s3); font-size: 16px; }
+
+  /* ---------- hero ---------- */
+  .hero { padding-top: var(--s6); overflow: hidden; }
+  .hero-grid { display: grid; gap: var(--s5); align-items: center; }
+  @media (min-width: 880px) { .hero-grid { grid-template-columns: 1.05fr 1fr; gap: var(--s6); } }
+  .hero-copy { display: grid; gap: var(--s4); justify-items: start; }
+  .hero h1 .hl { color: var(--accent); }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: var(--s3); }
+  .hero-art { position: relative; }
+  .hero-art .frame {
+    border-radius: 32px; overflow: hidden; box-shadow: var(--shadow-lift);
+    border: 6px solid var(--surface); transform: rotate(1.5deg);
+    aspect-ratio: 720 / 760;
+  }
+  .hero-art .frame img { width: 100%; height: 100%; object-fit: cover; }
+  .hero-art .chip {
+    position: absolute; left: -8px; bottom: 24px;
+    background: var(--surface); border-radius: 999px; padding: var(--s2) var(--s3);
+    box-shadow: var(--shadow); font-weight: 800; font-size: 16px; display: flex; align-items: center; gap: var(--s2);
+    transform: rotate(-3deg);
+  }
+  @media (min-width: 880px) { .hero-art .chip { left: -24px; } }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: #2fb36b; box-shadow: 0 0 0 4px rgba(47,179,107,.18); }
+  .float { animation: float 6s ease-in-out infinite; }
+  @keyframes float { 50% { transform: translateY(-8px) rotate(1.5deg); } }
+
+  /* ---------- friends ---------- */
+  .friends { background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .friend-grid { display: grid; gap: var(--s4); }
+  @media (min-width: 720px) { .friend-grid { grid-template-columns: 1fr 1fr; } }
+  .friend {
+    background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;
+    display: grid; transition: transform 250ms var(--ease-out-lux), box-shadow 250ms var(--ease-std);
+  }
+  .friend:hover { transform: translateY(-4px); box-shadow: var(--shadow-lift); }
+  .friend img { aspect-ratio: 9 / 8; width: 100%; object-fit: cover; }
+  .friend-body { padding: var(--s4); display: grid; gap: var(--s3); }
+  .friend-tag { font-weight: 800; color: var(--ink-soft); font-size: 16px; }
+  .facts { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--s2); }
+  .facts li { display: flex; gap: var(--s2); color: var(--ink-soft); }
+  .facts li::before { content: "★"; color: var(--gold); }
+
+  .say {
+    justify-self: start; display: inline-flex; align-items: center; gap: var(--s3);
+    background: var(--surface); border: 2px solid var(--line); border-radius: 999px;
+    padding: var(--s2) var(--s4) var(--s2) var(--s2); cursor: pointer; font: inherit; color: inherit;
+    transition: transform 200ms var(--ease-pop), border-color 200ms var(--ease-std);
+  }
+  .say:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .say .icon { width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center; }
+  .say strong { font: 700 20px/1.1 "Fredoka", sans-serif; display: block; }
+  .say small { display: block; color: var(--ink-soft); font-size: 14px; font-weight: 700; line-height: 1.3; text-align: left; }
+  .say.playing .icon { animation: pulse 600ms var(--ease-std) infinite alternate; }
+  @keyframes pulse { to { transform: scale(1.1); } }
+
+  /* ---------- visiting ---------- */
+  .visit-grid { display: grid; gap: var(--s4); }
+  @media (min-width: 720px) { .visit-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .visit-grid { grid-template-columns: repeat(4, 1fr); } }
+  .flip {
+    perspective: 1000px; border: 0; padding: 0; background: none; cursor: pointer; text-align: left; font: inherit; color: inherit;
+    min-height: 340px;
+  }
+  .flip-inner { position: relative; height: 100%; min-height: 340px; transition: transform 280ms var(--ease-out-lux); transform-style: preserve-3d; }
+  .flip.flipped .flip-inner { transform: rotateY(180deg); }
+  .face {
+    position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .face img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+  .face .cap { padding: var(--s3) var(--s4); display: flex; justify-content: space-between; align-items: center; gap: var(--s2); flex: 1; }
+  .face .cap span { font-size: 14px; font-weight: 800; color: var(--accent); white-space: nowrap; }
+  .back { transform: rotateY(180deg); background: var(--accent); color: #fff; padding: var(--s4); justify-content: center; gap: var(--s3); border: 0; }
+  .back h3 { color: #fff; }
+  .back p { font-size: 18px; }
+  .back .q { background: rgba(255,255,255,.16); border-radius: var(--radius-sm); padding: var(--s3); font-weight: 800; font-size: 16px; }
+
+  /* ---------- passport ---------- */
+  .passport { background: var(--sky); }
+  .passport-book {
+    background: var(--surface); border-radius: 32px; padding: var(--s4); box-shadow: var(--shadow);
+    border: 1px solid var(--line);
+  }
+  @media (min-width: 720px) { .passport-book { padding: var(--s6); } }
+  .stamps { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s3); max-width: 640px; margin: 0 auto; }
+  .flag svg { width: 1.3em; height: auto; border-radius: 4px; box-shadow: 0 0 0 1px var(--line); margin: 0 auto; display: block; }
+  @media (min-width: 600px) { .stamps { grid-template-columns: repeat(3, 1fr); gap: var(--s4); } }
+  .stamp {
+    aspect-ratio: 1; border-radius: 50%; border: 3px dashed var(--line); display: grid; place-items: center; text-align: center;
+    font: inherit; color: inherit; background: none; cursor: pointer; padding: var(--s3);
+    transition: transform 220ms var(--ease-pop), border-color 200ms var(--ease-std), background-color 200ms var(--ease-std);
+  }
+  .stamp:hover { transform: rotate(-4deg) scale(1.03); }
+  .stamp .flag { font-size: clamp(32px, 7vw, 48px); line-height: 1; }
+  .stamp b { display: block; font: 700 clamp(16px, 3vw, 20px)/1.2 "Fredoka", sans-serif; margin-top: var(--s2); }
+  .stamp small { display: block; font-size: 14px; font-weight: 800; color: var(--ink-soft); }
+  .stamp.home { border: 3px solid var(--ink); }
+  .stamp.done { border: 3px solid var(--accent); color: var(--accent); background: var(--accent-soft); transform: rotate(-6deg); }
+  .stamp.done:hover { transform: rotate(-10deg) scale(1.03); }
+  .stamp.mystery .flag { color: var(--ink-soft); opacity: .5; font-family: "Fredoka", sans-serif; font-weight: 700; }
+  .passport-note { margin-top: var(--s4); min-height: 1.6em; font-weight: 800; text-align: center; color: var(--ink-soft); }
+
+  /* ---------- word ---------- */
+  .word-card {
+    display: grid; gap: var(--s5); align-items: center; background: var(--surface-2);
+    border-radius: 32px; padding: var(--s5) var(--s4); border: 1px solid var(--line);
+  }
+  @media (min-width: 880px) { .word-card { grid-template-columns: 1fr 1fr; padding: var(--s6); } }
+  .big-word { font: 700 clamp(56px, 12vw, 104px)/1 "Fredoka", sans-serif; color: var(--accent); }
+  .word-meta { display: grid; gap: var(--s3); }
+  .how { display: flex; flex-wrap: wrap; gap: var(--s2); }
+  .how span { background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: var(--s1) var(--s3); font-weight: 800; font-size: 16px; }
+
+  /* ---------- episodes ---------- */
+  .ep-grid { display: grid; gap: var(--s4); }
+  @media (min-width: 880px) { .ep-grid { grid-template-columns: 1.4fr 1fr; } }
+  .player {
+    position: relative; border-radius: var(--radius); overflow: hidden; background: #1d1828; aspect-ratio: 16 / 9; box-shadow: var(--shadow-lift);
+  }
+  .player img { width: 100%; height: 100%; object-fit: cover; opacity: .85; }
+  .player button.play {
+    position: absolute; inset: 0; margin: auto; width: 88px; height: 88px; border-radius: 50%; border: 0; cursor: pointer;
+    background: var(--accent); color: #fff; font-size: 32px; box-shadow: 0 6px 0 #a92718;
+    transition: transform 200ms var(--ease-pop);
+  }
+  .player button.play:hover { transform: scale(1.06); }
+  .player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .player .soon {
+    position: absolute; left: var(--s3); right: var(--s3); bottom: var(--s3); background: rgba(255,255,255,.94); border-radius: var(--radius-sm);
+    padding: var(--s2) var(--s3); font-weight: 800; text-align: center; font-size: 16px;
+    opacity: 0; transform: translateY(8px); transition: opacity 220ms var(--ease-std), transform 220ms var(--ease-out-lux);
+  }
+  .player .soon.show { opacity: 1; transform: none; }
+  .ep-list { display: grid; gap: var(--s3); align-content: start; }
+  .ep {
+    display: flex; gap: var(--s3); align-items: center; background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius-sm); padding: var(--s3);
+  }
+  .ep .num { flex: none; width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; font: 700 20px/1 "Fredoka", sans-serif; background: var(--accent-soft); color: var(--accent); }
+  .ep.locked { opacity: .6; }
+  .ep.locked .num { background: var(--surface-2); color: var(--ink-soft); }
+  .ep b { display: block; line-height: 1.3; }
+  .ep small { color: var(--ink-soft); font-weight: 700; font-size: 14px; }
+
+  /* ---------- grown-ups ---------- */
+  .grownups { background: var(--ink); color: #f6f1ff; }
+  .grownups .eyebrow { background: rgba(255,255,255,.1); color: var(--gold); }
+  .grownups .lead { color: #c9c1d8; }
+  .gate {
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14); border-radius: var(--radius);
+    padding: var(--s4); display: grid; gap: var(--s3); max-width: 520px;
+  }
+  .gate form { display: flex; gap: var(--s2); flex-wrap: wrap; }
+  .gate input {
+    font: 800 20px/1 "Nunito", sans-serif; width: 120px; padding: var(--s3); border-radius: var(--radius-sm);
+    border: 2px solid rgba(255,255,255,.2); background: rgba(255,255,255,.08); color: #fff;
+  }
+  .gate .err { color: #ffb4a8; font-weight: 800; min-height: 1.6em; font-size: 16px; }
+  .gu-content { display: none; gap: var(--s5); }
+  .gu-content.open { display: grid; animation: rise 280ms var(--ease-out-lux); }
+  @keyframes rise { from { opacity: 0; transform: translateY(12px); } }
+  .gu-grid { display: grid; gap: var(--s4); }
+  @media (min-width: 880px) { .gu-grid { grid-template-columns: repeat(3, 1fr); } }
+  .gu-card {
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius);
+    padding: var(--s4); display: grid; gap: var(--s3); align-content: start;
+  }
+  .gu-card h3 { color: #fff; }
+  .gu-card p, .gu-card li { color: #c9c1d8; font-size: 16px; }
+  .gu-card ul { margin: 0; padding-left: 1.2em; display: grid; gap: var(--s2); }
+  .pick { display: flex; justify-content: space-between; gap: var(--s3); align-items: center; border-top: 1px solid rgba(255,255,255,.1); padding-top: var(--s3); }
+  .pick a { color: var(--gold); font-weight: 800; font-size: 16px; white-space: nowrap; }
+  .disclosure { font-size: 14px !important; color: #a79fb8 !important; }
+  .grownups .btn-ghost { background: transparent; color: #fff; border-color: rgba(255,255,255,.3); }
+
+  footer { padding: var(--s5) 0; font-size: 16px; color: var(--ink-soft); }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: var(--s3); justify-content: space-between; }
+
+  /* reveal on scroll */
+  .reveal { opacity: 0; transform: translateY(16px); transition: opacity 280ms var(--ease-std), transform 280ms var(--ease-out-lux); }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .reveal { opacity: 1; transform: none; }
+    html { scroll-behavior: auto; }
+  }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Billy's World of Friends, home"><span class="logo-mark" aria-hidden="true">✈</span>Billy's World</a>
+    <nav class="links" aria-label="Main">
+      <a href="#friends">Friends</a>
+      <a href="#visiting">India</a>
+      <a href="#passport">Passport</a>
+      <a href="#word">Word of the Week</a>
+      <a href="#watch">Watch</a>
+    </nav>
+    <a class="btn btn-ghost" href="#grownups">For grown-ups</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">Now visiting: India</span>
+        <h1>Fly around the world with <span class="hl">Billy!</span></h1>
+        <p class="lead">Billy has friends everywhere. Hop on the plane and visit them. You'll see amazing places, taste yummy food and learn new words.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#watch">▶ Watch the trailer</a>
+          <a class="btn btn-ghost" href="#passport">Open my passport</a>
+        </div>
+      </div>
+      <div class="hero-art">
+        <div class="frame float"><img src="images/plane.jpg" alt="Billy's smiling red and white plane flying over snowy mountains" width="720" height="760"></div>
+        <div class="chip"><span class="dot" aria-hidden="true"></span>Next stop: India!</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FRIENDS -->
+  <section class="friends" id="friends">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Meet the friends</span>
+        <h2>Say hello!</h2>
+        <p class="lead">Tap a button to hear how each friend says hello.</p>
+      </div>
+      <div class="friend-grid">
+        <article class="friend reveal">
+          <img src="images/billy.jpg" alt="Billy, a smiling boy with round glasses, talking on the phone" width="720" height="640">
+          <div class="friend-body">
+            <div>
+              <h3>Billy</h3>
+              <p class="friend-tag">Lives in China · Loves flying</p>
+            </div>
+            <ul class="facts">
+              <li>Billy has a friend in every country he visits.</li>
+              <li>He collects a passport stamp at every stop.</li>
+            </ul>
+            <button class="say" data-say="你好" data-lang="zh-CN" type="button">
+              <span class="icon" aria-hidden="true">🔊</span>
+              <span><strong>Nǐ hǎo!</strong><small>"Hello" in Chinese</small></span>
+            </button>
+          </div>
+        </article>
+        <article class="friend reveal">
+          <img src="images/ajay.jpg" alt="Ajay, a smiling boy with curly hair, talking on the phone" width="720" height="640">
+          <div class="friend-body">
+            <div>
+              <h3>Ajay</h3>
+              <p class="friend-tag">Lives in India · Billy's tour guide</p>
+            </div>
+            <ul class="facts">
+              <li>Ajay can't wait to show Billy around India.</li>
+              <li>Diwali is his favorite festival.</li>
+            </ul>
+            <button class="say" data-say="नमस्ते" data-lang="hi-IN" type="button">
+              <span class="icon" aria-hidden="true">🔊</span>
+              <span><strong>Namaste!</strong><small>"Hello" in Hindi</small></span>
+            </button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISITING -->
+  <section id="visiting">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Adventure #1 · India</span>
+        <h2>What will Billy see?</h2>
+        <p class="lead">Tap a card to flip it over and find a fun fact.</p>
+      </div>
+      <div class="visit-grid">
+        <button class="flip reveal" type="button" aria-label="Flip the map card">
+          <div class="flip-inner">
+            <div class="face"><img src="images/card-map.jpg" alt="A clay-style map of India with an elephant and a palm tree" width="556" height="416"><div class="cap"><h3>The map</h3><span>Tap me ↻</span></div></div>
+            <div class="face back"><h3>Lots of people!</h3><p>India has more people than any other country in the world.</p><p class="q">Can you find the elephant on the map?</p></div>
+          </div>
+        </button>
+        <button class="flip reveal" type="button" aria-label="Flip the Taj Mahal card">
+          <div class="flip-inner">
+            <div class="face"><img src="images/card-taj.jpg" alt="The white Taj Mahal with a long reflecting pool" width="556" height="416"><div class="cap"><h3>Taj Mahal</h3><span>Tap me ↻</span></div></div>
+            <div class="face back"><h3>Shiny white stone</h3><p>The Taj Mahal is made of white marble. Building it took more than 20 years!</p><p class="q">Count the tall towers. How many can you see?</p></div>
+          </div>
+        </button>
+        <button class="flip reveal" type="button" aria-label="Flip the street food card">
+          <div class="flip-inner">
+            <div class="face"><img src="images/card-food.jpg" alt="A plate of samosas, curry, naan bread and chili peppers" width="556" height="416"><div class="cap"><h3>Street food</h3><span>Tap me ↻</span></div></div>
+            <div class="face back"><h3>Triangle snack!</h3><p>A samosa is a crispy triangle pastry, often filled with potatoes and peas.</p><p class="q">What shape is a samosa?</p></div>
+          </div>
+        </button>
+        <button class="flip reveal" type="button" aria-label="Flip the Diwali card">
+          <div class="flip-inner">
+            <div class="face"><img src="images/card-diwali.jpg" alt="A family celebrating Diwali with lamps, fireworks and a colorful rangoli" width="556" height="416"><div class="cap"><h3>Diwali</h3><span>Tap me ↻</span></div></div>
+            <div class="face back"><h3>Festival of Lights</h3><p>On Diwali, families light little clay lamps called <b>diyas</b> and make colorful patterns called <b>rangoli</b>.</p><p class="q">What colors would you use for a rangoli?</p></div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PASSPORT -->
+  <section class="passport" id="passport">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">My passport</span>
+        <h2>Collect every stamp!</h2>
+        <p class="lead">Billy gets a new stamp each time he visits a friend. Where will he fly next?</p>
+      </div>
+      <div class="passport-book reveal">
+        <div class="stamps">
+          <button class="stamp home" type="button" data-msg="This is home! Billy lives in China."><span><span class="flag" aria-hidden="true"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#de2910"/><polygon fill="#ffde00" points="5,2 6.2,5.4 9.8,5.4 6.9,7.6 8,11 5,8.9 2,11 3.1,7.6 0.2,5.4 3.8,5.4"/><circle cx="11" cy="2.5" r="0.9" fill="#ffde00"/><circle cx="13" cy="4.5" r="0.9" fill="#ffde00"/><circle cx="13" cy="7.5" r="0.9" fill="#ffde00"/><circle cx="11" cy="9.5" r="0.9" fill="#ffde00"/></svg></span><b>China</b><small>Home</small></span></button>
+          <button class="stamp done" type="button" data-msg="Stamped! Billy is visiting Ajay in India right now."><span><span class="flag" aria-hidden="true"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="30" height="6.67" fill="#ff9933"/><rect y="13.33" width="30" height="6.67" fill="#138808"/><circle cx="15" cy="10" r="2.6" fill="none" stroke="#000080" stroke-width="0.6"/><circle cx="15" cy="10" r="0.6" fill="#000080"/></svg></span><b>India</b><small>Visiting now!</small></span></button>
+          <button class="stamp mystery" type="button"><span><span class="flag" aria-hidden="true">?</span><b>Mystery</b><small>Coming soon</small></span></button>
+          <button class="stamp mystery" type="button"><span><span class="flag" aria-hidden="true">?</span><b>Mystery</b><small>Coming soon</small></span></button>
+          <button class="stamp mystery" type="button"><span><span class="flag" aria-hidden="true">?</span><b>Mystery</b><small>Coming soon</small></span></button>
+          <button class="stamp mystery" type="button"><span><span class="flag" aria-hidden="true">?</span><b>Mystery</b><small>Coming soon</small></span></button>
+        </div>
+        <p class="passport-note" id="passport-note" aria-live="polite">Tap a stamp!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORD OF THE WEEK -->
+  <section id="word">
+    <div class="wrap">
+      <div class="word-card reveal">
+        <div>
+          <span class="eyebrow">Word of the week</span>
+          <p class="big-word" lang="hi-Latn">Namaste</p>
+        </div>
+        <div class="word-meta">
+          <p class="lead">In India, people say <b>namaste</b> to say hello. You press your hands together and give a little bow.</p>
+          <div class="how" aria-label="How to say it"><span>nuh</span><span>muh</span><span>stay</span></div>
+          <button class="say" data-say="नमस्ते" data-lang="hi-IN" type="button">
+            <span class="icon" aria-hidden="true">🔊</span>
+            <span><strong>Hear it</strong><small>Then say it with Billy!</small></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WATCH -->
+  <section id="watch" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Watch</span>
+        <h2>Billy's adventures</h2>
+      </div>
+      <div class="ep-grid">
+        <div class="player reveal" id="player">
+          <img src="images/plane.jpg" alt="" width="720" height="760">
+          <button class="play" type="button" aria-label="Play the trailer">▶</button>
+          <p class="soon" id="soon">The video is coming soon!</p>
+        </div>
+        <div class="ep-list reveal">
+          <div class="ep"><span class="num">★</span><span><b>Trailer: Billy flies to India!</b><small>30 seconds</small></span></div>
+          <div class="ep locked"><span class="num">1</span><span><b>Episode 1: Hello, India!</b><small>Coming soon</small></span></div>
+          <div class="ep locked"><span class="num">2</span><span><b>Episode 2: The Taj Mahal</b><small>Coming soon</small></span></div>
+          <div class="ep locked"><span class="num">3</span><span><b>Episode 3: Diwali lights</b><small>Coming soon</small></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROWN-UPS -->
+  <section class="grownups" id="grownups">
+    <div class="wrap" style="display:grid; gap: var(--s5);">
+      <div class="section-head" style="margin-bottom:0">
+        <span class="eyebrow">For grown-ups</span>
+        <h2>Hi, parents and teachers!</h2>
+        <p class="lead">This part of the site is for adults. It has activity ideas, printables and our recommended books and toys.</p>
+      </div>
+
+      <div class="gate" id="gate">
+        <p><b>Grown-up check:</b> what is <span id="qa"></span> + <span id="qb"></span>?</p>
+        <form id="gate-form" autocomplete="off">
+          <label class="sr" for="gate-answer">Answer</label>
+          <input id="gate-answer" inputmode="numeric" pattern="[0-9]*" maxlength="3">
+          <button class="btn btn-primary" type="submit">Enter</button>
+        </form>
+        <p class="err" id="gate-err" aria-live="polite"></p>
+      </div>
+
+      <div class="gu-content" id="gu-content">
+        <div class="gu-grid">
+          <div class="gu-card">
+            <h3>What kids learn</h3>
+            <ul>
+              <li>Countries on a map, and where they are</li>
+              <li>A greeting in a new language every trip</li>
+              <li>Famous places, foods and festivals</li>
+              <li>Kindness and curiosity about other cultures</li>
+            </ul>
+          </div>
+          <div class="gu-card">
+            <h3>Free printables</h3>
+            <p>Coloring pages, a passport to stamp at home, and a world map to track Billy's trips.</p>
+            <p><b style="color:#fff">Coming soon.</b></p>
+          </div>
+          <div class="gu-card">
+            <h3>Billy's bookshelf</h3>
+            <p>Books and toys we love for little explorers.</p>
+            <!-- Replace these with your affiliate links once you're approved for a program. -->
+            <div class="pick"><span>Kids' picture atlas</span><span style="color:var(--gold);font-weight:800;font-size:16px">Coming soon</span></div>
+            <div class="pick"><span>Diwali picture book</span><span style="color:var(--gold);font-weight:800;font-size:16px">Coming soon</span></div>
+            <div class="pick"><span>Kids' world puzzle map</span><span style="color:var(--gold);font-weight:800;font-size:16px">Coming soon</span></div>
+            <p class="disclosure">Some links on this page are affiliate links. If you buy through them, we may earn a small commission at no extra cost to you. We only recommend things we'd share with our own kids.</p>
+          </div>
+        </div>
+        <div class="gu-card">
+          <h3>Our privacy promise</h3>
+          <p>This site has no ads, no sign-ups, no comments and no tracking. We don't collect any information from children. Have an idea for Billy's next trip? A contact email is coming soon.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Billy's World of Friends</span>
+    <span>No ads · No tracking · Made for curious kids</span>
+  </div>
+</footer>
+
+<script>
+  /* =========  EDIT THESE  ========= */
+  const SITE_CONFIG = {
+    // The part after "v=" in your YouTube link, e.g. "dQw4w9WgXcQ". Leave empty until the video is live.
+    trailerVideoId: ""
+  };
+
+  // Speak a word (uses the device's built-in voices; nothing is sent to us)
+  document.querySelectorAll('.say').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (!('speechSynthesis' in window)) return;
+      speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(btn.dataset.say);
+      u.lang = btn.dataset.lang; u.rate = 0.8;
+      const v = speechSynthesis.getVoices().find(v => v.lang.replace('_','-').startsWith(btn.dataset.lang.split('-')[0]));
+      if (v) u.voice = v;
+      btn.classList.add('playing');
+      u.onend = u.onerror = () => btn.classList.remove('playing');
+      speechSynthesis.speak(u);
+    });
+  });
+
+  // Flip cards
+  document.querySelectorAll('.flip').forEach(c => c.addEventListener('click', () => c.classList.toggle('flipped')));
+
+  // Passport
+  const note = document.getElementById('passport-note');
+  const mysteryMsgs = [
+    "Shh… it's a surprise! Where do you think Billy will go?",
+    "Hmm… maybe somewhere with kangaroos? Or pyramids?",
+    "Ask a grown-up to tell us where Billy should fly next!",
+    "This stamp is still a secret. Keep watching!"
+  ];
+  let m = 0;
+  document.querySelectorAll('.stamp').forEach(s => s.addEventListener('click', () => {
+    note.textContent = s.dataset.msg || mysteryMsgs[m++ % mysteryMsgs.length];
+  }));
+
+  // Video: loads only when tapped (privacy-enhanced mode, no cookies until play)
+  const player = document.getElementById('player');
+  player.querySelector('.play').addEventListener('click', () => {
+    if (!SITE_CONFIG.trailerVideoId) { document.getElementById('soon').classList.add('show'); return; }
+    const f = document.createElement('iframe');
+    f.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(SITE_CONFIG.trailerVideoId) + '?autoplay=1&rel=0';
+    f.title = "Billy's World of Friends trailer";
+    f.allow = 'autoplay; encrypted-media; picture-in-picture';
+    f.allowFullscreen = true;
+    player.replaceChildren(f);
+  });
+
+  // Grown-up gate
+  const qa = 6 + Math.floor(Math.random() * 7), qb = 5 + Math.floor(Math.random() * 7);
+  document.getElementById('qa').textContent = qa;
+  document.getElementById('qb').textContent = qb;
+  document.getElementById('gate-form').addEventListener('submit', e => {
+    e.preventDefault();
+    if (parseInt(document.getElementById('gate-answer').value, 10) === qa + qb) {
+      document.getElementById('gate').hidden = true;
+      document.getElementById('gu-content').classList.add('open');
+    } else {
+      document.getElementById('gate-err').textContent = 'Not quite. Please ask a grown-up to help!';
+    }
+  });
+
+  // Reveal on scroll
+  const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), { threshold: 0.12 }) : null;
+  document.querySelectorAll('.reveal').forEach(el => io ? io.observe(el) : el.classList.add('in'));
+</script>
+</body>
+</html>
