@@ -384,6 +384,153 @@
   .gu-book .gu-cover { width: 120px; border-radius: 8px; transform: rotate(-2deg); }
   .gu-card .btn { justify-self: start; }
   .share-msg { min-height: 1.2em; color: var(--gold) !important; font-weight: 800; }
+
+  /* =====================================================================
+     KID-FRIENDLY VISUAL LAYER: section colors, waves, doodles, hero scene,
+     phone tab bar, sound controls, flip cards, quiz, passport
+     ===================================================================== */
+  :root {
+    --sky1: #bfe6fb; --sky2: #e9f7ff; --sun: #fff1c2; --peach: #ffe4d3;
+    --mint: #d9f3df; --lilac: #ece3fb; --saffron: #ffe2a3;
+    --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 30' preserveAspectRatio='none'%3E%3Cpath d='M0 30V16Q30 0 60 16T120 16V30Z'/%3E%3C/svg%3E");
+  }
+  main > section { position: relative; }
+  .hero { background: linear-gradient(180deg, var(--sky1) 0%, var(--sky2) 100%); }
+  .friends { background: var(--sun); border: 0; }
+  #visiting { background: var(--peach); }
+  .play { background: var(--mint); border: 0; }
+  .passport { background: var(--sky); }
+  #watch { background: var(--lilac); }
+  .book { background: var(--saffron); }
+  /* wavy top edge in each section's own color */
+  main > section:not(.hero)::before {
+    content: ""; position: absolute; left: 0; right: 0; top: -27px; height: 28px; background: inherit;
+    -webkit-mask: var(--wave) repeat-x 0 0 / 120px 28px; mask: var(--wave) repeat-x 0 0 / 120px 28px; pointer-events: none;
+  }
+  /* floating doodles */
+  .doodle { position: absolute; font-size: 48px; line-height: 1; pointer-events: none; animation: bob 6s ease-in-out infinite; user-select: none; }
+  @media (max-width: 719px) { .doodle { font-size: 34px; } }
+  @keyframes bob { 50% { transform: translateY(-10px) rotate(4deg); } }
+
+  .friend, .game { background: var(--surface); }
+  .friend { border: 0; box-shadow: var(--shadow); }
+
+  /* section headings: a read-aloud button sits next to each title */
+  .read-btn {
+    display: inline-grid; place-items: center; width: 44px; height: 44px; margin-left: var(--s2); vertical-align: middle;
+    border-radius: 50%; border: 0; background: var(--surface); box-shadow: var(--shadow); cursor: pointer; font-size: 20px;
+    transition: transform 200ms var(--ease-pop);
+  }
+  .read-btn:hover { transform: scale(1.08); }
+  .read-btn.talking { animation: pulse 600ms var(--ease-std) infinite alternate; }
+
+  /* ---------- hero scene ---------- */
+  .hero { padding-bottom: var(--s7); }
+  @media (max-width: 879px) { .hero { padding-top: var(--s4); } .hero-art { order: -1; } }
+  .scene { position: relative; width: 100%; max-width: 520px; margin: 0 auto; aspect-ratio: 1 / 0.92; }
+  .scene-photo {
+    position: absolute; inset: 14% 9% 12% 9%; border-radius: 32px; overflow: hidden; border: 6px solid #fff;
+    box-shadow: var(--shadow-lift); transform: rotate(1.5deg);
+  }
+  .scene-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+  .pal { position: absolute; width: 36%; background: none; border: 0; padding: 0; cursor: pointer; z-index: 2; transition: transform 220ms var(--ease-pop); }
+  .pal:hover, .pal.playing { transform: scale(1.05) rotate(-2deg); }
+  .pal .ring { display: block; aspect-ratio: 1; border-radius: 50%; overflow: hidden; border: 6px solid #fff; box-shadow: var(--shadow-lift); background: #fff; }
+  .pal .ring img { width: 100%; height: 100%; object-fit: cover; }
+  .pal .name {
+    position: absolute; left: 50%; bottom: -10px; transform: translateX(-50%); white-space: nowrap;
+    background: var(--accent); color: #fff; border-radius: 999px; padding: 4px 14px; font: 700 18px/1.2 "Fredoka", sans-serif;
+    box-shadow: 0 3px 0 #a92718;
+  }
+  .pal .hi { display: block; font: 800 12px/1 "Nunito", sans-serif; opacity: .9; }
+  .pal.billy { left: 0; top: 0; }
+  .pal.ajay { right: 0; bottom: 4%; }
+  .pal.billy .ring img { object-position: 50% 30%; }
+  .pal.ajay .ring img { object-position: 50% 20%; }
+  .flyer { position: absolute; top: 18px; left: -60px; font-size: 40px; z-index: 1; animation: fly 16s linear infinite; pointer-events: none; }
+  @keyframes fly { from { transform: translateX(0) translateY(0); } 50% { transform: translateX(55vw) translateY(-10px); } to { transform: translateX(115vw) translateY(4px); } }
+  .cloud { position: absolute; width: 140px; height: 44px; background: #fff; border-radius: 999px; opacity: .85; pointer-events: none; animation: drift 40s linear infinite; }
+  .cloud::before, .cloud::after { content: ""; position: absolute; background: #fff; border-radius: 50%; }
+  .cloud::before { width: 60px; height: 60px; left: 22px; top: -28px; }
+  .cloud::after { width: 46px; height: 46px; left: 70px; top: -18px; }
+  @keyframes drift { 50% { transform: translateX(40px); } }
+  .hero .wrap { position: relative; z-index: 1; }
+
+  /* ---------- sound toggle + header actions ---------- */
+  .top-actions { display: flex; align-items: center; gap: var(--s2); }
+  .sound-btn {
+    width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface);
+    font-size: 20px; cursor: pointer; display: grid; place-items: center; transition: transform 200ms var(--ease-pop);
+  }
+  .sound-btn:hover { transform: scale(1.06); }
+  @media (max-width: 420px) { .top .btn { padding: var(--s2) 12px; font-size: 14px; } .logo { font-size: 18px; } }
+  @media (max-width: 360px) { .logo { font-size: 0; gap: 0; } }
+
+  /* ---------- phone tab bar ---------- */
+  .tabbar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; display: flex; gap: 2px;
+    background: rgba(255,255,255,.97); border-top: 1px solid var(--line); box-shadow: 0 -4px 16px rgba(42,34,56,.08);
+    padding: 6px 6px calc(6px + env(safe-area-inset-bottom));
+  }
+  .tabbar a {
+    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 6px 0 4px; border-radius: 14px;
+    text-decoration: none; font: 800 12px/1.1 "Nunito", sans-serif; color: var(--ink-soft);
+    transition: background-color 200ms var(--ease-std), color 200ms var(--ease-std);
+  }
+  .tabbar .ti { font-size: 26px; line-height: 1; transition: transform 220ms var(--ease-pop); }
+  .tabbar a.active { color: var(--accent); background: var(--accent-soft); }
+  .tabbar a.active .ti { transform: translateY(-2px) scale(1.15); }
+  @media (min-width: 880px) { .tabbar { display: none; } }
+  @media (max-width: 879px) { body { padding-bottom: 78px; } }
+
+  /* ---------- flip cards: picture fills the card ---------- */
+  .flip, .flip-inner { min-height: 400px; }
+  .back { padding: var(--s3) var(--s4); gap: var(--s2); }
+  @media (min-width: 720px) and (max-width: 1100px) { .back p { font-size: 16px; } }
+  .face:not(.back) img { position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; object-fit: cover; }
+  .face:not(.back) .cap {
+    position: absolute; left: 12px; right: 12px; bottom: 12px; flex: none;
+    background: rgba(255,255,255,.96); border-radius: 999px; padding: 6px 6px 6px 18px; box-shadow: var(--shadow);
+  }
+  .face:not(.back) .cap h3 { font-size: 20px; }
+  .face .cap span.tap {
+    background: var(--accent); color: #fff; border-radius: 999px; padding: 6px 12px; font-size: 15px;
+    display: inline-block; animation: wiggle 3s var(--ease-std) infinite;
+  }
+  @keyframes wiggle { 0%, 78%, 100% { transform: rotate(0); } 84% { transform: rotate(-10deg) scale(1.08); } 90% { transform: rotate(10deg) scale(1.08); } 96% { transform: rotate(-4deg); } }
+  .back p { font-size: 17px; }
+  .swipe-hint { display: none; text-align: center; font-weight: 800; color: var(--ink-soft); margin-top: var(--s2); }
+  @media (max-width: 719px) {
+    .visit-grid {
+      display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: var(--s3);
+      margin: 0 calc(-1 * var(--s3)); padding: var(--s1) var(--s3) var(--s3); scrollbar-width: none;
+    }
+    .visit-grid::-webkit-scrollbar { display: none; }
+    .visit-grid .flip { flex: 0 0 80%; scroll-snap-align: center; }
+    .flip, .flip-inner { min-height: 400px; }
+    .swipe-hint { display: block; }
+  }
+
+  /* ---------- quiz: smaller picture, big picture-answers ---------- */
+  .q-img { aspect-ratio: auto; height: 160px; }
+  @media (min-width: 960px) { .q-img { height: 190px; } }
+  .answers { grid-template-columns: repeat(3, 1fr); }
+  .ans { flex-direction: column; gap: 6px; padding: 12px 6px; min-height: 108px; font-size: 18px; }
+  .ans .e { font-size: 44px; line-height: 1; }
+
+  /* ---------- video thumbnail: Billy and Ajay on a call ---------- */
+  .duo { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; background: #fff; }
+  .duo img { opacity: 1 !important; }
+  .duo .b { object-position: 50% 30%; }
+  .duo .a { object-position: 50% 20%; }
+
+  /* ---------- passport: progress + call to action ---------- */
+  .stamp-count { text-align: center; font: 700 22px/1.3 "Fredoka", sans-serif; margin-top: var(--s4); }
+  .stamp-bar { height: 14px; max-width: 360px; margin: var(--s2) auto 0; background: var(--sky); border-radius: 999px; overflow: hidden; }
+  .stamp-bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--gold), var(--accent)); border-radius: 999px; transition: width 600ms var(--ease-out-lux); }
+  .earn-cta { display: flex; justify-content: center; margin-top: var(--s3); }
+  .pulse { animation: glow 1.6s var(--ease-std) infinite; }
+  @keyframes glow { 0%, 100% { box-shadow: 0 4px 0 #a92718, 0 0 0 0 rgba(217,58,43,.45); } 50% { box-shadow: 0 4px 0 #a92718, 0 0 0 12px rgba(217,58,43,0); } }
 </style>
 </head>
 <body>
@@ -399,14 +546,21 @@
       <a href="#watch">Watch</a>
       <a href="#book">Book</a>
     </nav>
-    <a class="btn btn-ghost" href="#grownups">For grown-ups</a>
+    <div class="top-actions">
+      <button class="sound-btn" type="button" id="sound-btn" aria-pressed="true" aria-label="Sound on. Tap to turn sound off.">🔊</button>
+      <a class="btn btn-ghost" href="#grownups">For grown-ups</a>
+    </div>
   </div>
 </header>
 
 <main id="top">
 
   <!-- HERO -->
-  <section class="hero">
+  <section class="hero" id="home">
+    <span class="cloud" style="top:12%;left:4%" aria-hidden="true"></span>
+    <span class="cloud" style="top:58%;left:44%;transform:scale(.7)" aria-hidden="true"></span>
+    <span class="cloud" style="top:22%;right:6%;animation-delay:-12s" aria-hidden="true"></span>
+    <span class="flyer" aria-hidden="true">✈️</span>
     <div class="wrap hero-grid">
       <div class="hero-copy">
         <span class="eyebrow">First stop: India</span>
@@ -418,14 +572,24 @@
         </div>
       </div>
       <div class="hero-art">
-        <div class="frame float"><img src="images/plane.jpg" alt="Billy's smiling red and white plane flying over snowy mountains" width="720" height="760"></div>
-        <div class="chip"><span class="dot" aria-hidden="true"></span>First stop: India!</div>
+        <div class="scene">
+          <div class="scene-photo"><img src="images/card-taj.jpg" alt="The Taj Mahal in India" width="556" height="416"></div>
+          <button class="pal billy" type="button" data-say="你好" data-lang="zh-CN" aria-label="Billy says hello in Chinese">
+            <span class="ring"><img src="images/billy.jpg" alt="Billy" width="720" height="640"></span>
+            <span class="name">Billy <span class="hi">tap me!</span></span>
+          </button>
+          <button class="pal ajay" type="button" data-say="नमस्ते" data-lang="hi-IN" aria-label="Ajay says hello in Hindi">
+            <span class="ring"><img src="images/ajay.jpg" alt="Ajay" width="720" height="640"></span>
+            <span class="name">Ajay <span class="hi">tap me!</span></span>
+          </button>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- FRIENDS -->
   <section class="friends" id="friends">
+    <span class="doodle" style="right:6%;top:36px" aria-hidden="true">☀️</span>
     <div class="wrap">
       <div class="section-head reveal">
         <span class="eyebrow">Meet the friends</span>
@@ -473,6 +637,7 @@
 
   <!-- VISITING -->
   <section id="visiting">
+    <span class="doodle" style="right:7%;top:40px;animation-delay:-2s" aria-hidden="true">🐘</span>
     <div class="wrap">
       <div class="section-head reveal">
         <span class="eyebrow">Adventure #1 · India</span>
@@ -482,34 +647,36 @@
       <div class="visit-grid">
         <button class="flip reveal" type="button" aria-label="Flip the map card">
           <div class="flip-inner">
-            <div class="face"><img src="images/card-map.jpg" alt="A clay-style map of India with an elephant and a palm tree" width="556" height="416"><div class="cap"><h3>The map</h3><span>Tap me ↻</span></div></div>
+            <div class="face"><img src="images/card-map.jpg" alt="A clay-style map of India with an elephant and a palm tree" width="556" height="416"><div class="cap"><h3>The map</h3><span class="tap">👆 Tap!</span></div></div>
             <div class="face back"><h3>Lots of people!</h3><p>India has more people than any other country in the world.</p><p class="q">Can you find the elephant on the map?</p></div>
           </div>
         </button>
         <button class="flip reveal" type="button" aria-label="Flip the Taj Mahal card">
           <div class="flip-inner">
-            <div class="face"><img src="images/card-taj.jpg" alt="The white Taj Mahal with a long reflecting pool" width="556" height="416"><div class="cap"><h3>Taj Mahal</h3><span>Tap me ↻</span></div></div>
+            <div class="face"><img src="images/card-taj.jpg" alt="The white Taj Mahal with a long reflecting pool" width="556" height="416"><div class="cap"><h3>Taj Mahal</h3><span class="tap">👆 Tap!</span></div></div>
             <div class="face back"><h3>Shiny white stone</h3><p>The Taj Mahal is made of white marble. Building the main tomb took about 17 years! It even seems to change color as the sun moves across the sky.</p><p class="q">Count the tall towers. How many can you see?</p></div>
           </div>
         </button>
         <button class="flip reveal" type="button" aria-label="Flip the street food card">
           <div class="flip-inner">
-            <div class="face"><img src="images/card-food.jpg" alt="A plate of samosas, curry, naan bread and chili peppers" width="556" height="416"><div class="cap"><h3>Street food</h3><span>Tap me ↻</span></div></div>
+            <div class="face"><img src="images/card-food.jpg" alt="A plate of samosas, curry, naan bread and chili peppers" width="556" height="416"><div class="cap"><h3>Street food</h3><span class="tap">👆 Tap!</span></div></div>
             <div class="face back"><h3>Triangle snack!</h3><p>A samosa is a crispy triangle pastry, often filled with potatoes and peas.</p><p class="q">What shape is a samosa?</p></div>
           </div>
         </button>
         <button class="flip reveal" type="button" aria-label="Flip the Diwali card">
           <div class="flip-inner">
-            <div class="face"><img src="images/card-diwali.jpg" alt="A family celebrating Diwali with lamps, fireworks and a colorful rangoli" width="556" height="416"><div class="cap"><h3>Diwali</h3><span>Tap me ↻</span></div></div>
+            <div class="face"><img src="images/card-diwali.jpg" alt="A family celebrating Diwali with lamps, fireworks and a colorful rangoli" width="556" height="416"><div class="cap"><h3>Diwali</h3><span class="tap">👆 Tap!</span></div></div>
             <div class="face back"><h3>Festival of Lights</h3><p>On Diwali, families light little clay lamps called <b>diyas</b> and make colorful patterns called <b>rangoli</b>. This year, Diwali was on November 8!</p><p class="q">What colors would you use for a rangoli?</p></div>
           </div>
         </button>
+      <p class="swipe-hint" aria-hidden="true">👉 Swipe to see more 👉</p>
       </div>
     </div>
   </section>
 
   <!-- PLAY -->
   <section class="play" id="play">
+    <span class="doodle" style="right:6%;top:36px;animation-delay:-3s" aria-hidden="true">⭐</span>
     <div class="wrap">
       <div class="section-head reveal">
         <span class="eyebrow">Play</span>
@@ -547,6 +714,7 @@
 
   <!-- PASSPORT -->
   <section class="passport" id="passport">
+    <span class="doodle" style="right:7%;top:36px;animation-delay:-1s" aria-hidden="true">🌍</span>
     <div class="wrap">
       <div class="section-head reveal">
         <span class="eyebrow">My passport</span>
@@ -562,6 +730,9 @@
           <button class="stamp mystery" type="button"><span><span class="flag" aria-hidden="true">?</span><b>Mystery friend</b><small>Coming soon</small></span></button>
           <button class="stamp mystery" type="button"><span><span class="flag" aria-hidden="true">?</span><b>Mystery friend</b><small>Coming soon</small></span></button>
         </div>
+        <p class="stamp-count" id="stamp-count">⭐ 1 of 6 stamps collected</p>
+        <div class="stamp-bar" aria-hidden="true"><i id="stamp-bar"></i></div>
+        <div class="earn-cta" id="earn-cta"><a class="btn btn-primary pulse" href="#play">🎮 Play to earn your India stamp!</a></div>
         <p class="passport-note" id="passport-note" aria-live="polite">Tap a stamp!</p>
       </div>
     </div>
@@ -569,6 +740,7 @@
 
   <!-- WATCH -->
   <section id="watch">
+    <span class="doodle" style="right:6%;top:36px;animation-delay:-4s" aria-hidden="true">🍿</span>
     <div class="wrap">
       <div class="section-head reveal">
         <span class="eyebrow">Watch</span>
@@ -576,7 +748,7 @@
       </div>
       <div class="ep-grid">
         <div class="player reveal" id="player">
-          <img src="images/plane.jpg" alt="" width="720" height="760">
+          <div class="duo"><img class="b" src="images/billy.jpg" alt="" width="720" height="640"><img class="a" src="images/ajay.jpg" alt="" width="720" height="640"></div>
           <button class="play" type="button" aria-label="Play Episode 1" hidden>▶</button>
           <p class="soon show" id="soon">▶ Episode 1 is coming soon!</p>
         </div>
@@ -591,6 +763,7 @@
 
   <!-- BOOK -->
   <section class="book" id="book">
+    <span class="doodle" style="right:6%;top:30px;animation-delay:-2s" aria-hidden="true">🪔</span>
     <div class="wrap book-grid">
       <div class="book-cover reveal"><img src="images/book-cover.jpg" alt="Cover of the picture book Billy Visits India" width="480" height="768"></div>
       <div class="book-copy reveal">
@@ -687,6 +860,14 @@
   </section>
 </main>
 
+<nav class="tabbar" aria-label="Quick menu">
+  <a href="#home"><span class="ti" aria-hidden="true">🏠</span>Home</a>
+  <a href="#friends"><span class="ti" aria-hidden="true">👋</span>Friends</a>
+  <a href="#play"><span class="ti" aria-hidden="true">🎮</span>Play</a>
+  <a href="#passport"><span class="ti" aria-hidden="true">🛂</span>Passport</a>
+  <a href="#watch"><span class="ti" aria-hidden="true">▶️</span>Watch</a>
+</nav>
+
 <footer>
   <div class="wrap">
     <span>© 2026 Billy's World of Friends</span>
@@ -712,34 +893,68 @@
     get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
     set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
   };
-  function speak(text, lang) {
-    if (!('speechSynthesis' in window)) return;
+  // ---------- Sound: one switch for voices and sound effects (remembered on this device) ----------
+  const sound = { on: store.get('billy-sound', true) };
+  const soundBtn = document.getElementById('sound-btn');
+  function drawSoundBtn() {
+    soundBtn.textContent = sound.on ? '🔊' : '🔇';
+    soundBtn.setAttribute('aria-pressed', sound.on);
+    soundBtn.setAttribute('aria-label', sound.on ? 'Sound on. Tap to turn sound off.' : 'Sound off. Tap to turn sound on.');
+  }
+  soundBtn.onclick = () => {
+    sound.on = !sound.on; store.set('billy-sound', sound.on); drawSoundBtn();
+    if (!sound.on && 'speechSynthesis' in window) speechSynthesis.cancel();
+    sfx.pop();
+  };
+  drawSoundBtn();
+
+  // Speech uses the device's built-in voices; nothing is sent to us.
+  function speak(text, lang, btn) {
+    if (!sound.on || !('speechSynthesis' in window)) return;
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
     u.lang = lang || 'en-US'; u.rate = 0.85;
     const v = speechSynthesis.getVoices().find(v => v.lang.replace('_','-').startsWith(u.lang.split('-')[0]));
     if (v) u.voice = v;
+    if (btn) { btn.classList.add(btn.classList.contains('read-btn') ? 'talking' : 'playing'); u.onend = u.onerror = () => btn.classList.remove('talking', 'playing'); }
     speechSynthesis.speak(u);
   }
+
+  // Tiny sound effects made in the browser (no audio files)
+  let actx;
+  function tone(freq, dur, type, vol, slideTo, delay) {
+    if (!sound.on) return;
+    try {
+      actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+      const t = actx.currentTime + (delay || 0), o = actx.createOscillator(), g = actx.createGain();
+      o.type = type || 'sine'; o.frequency.setValueAtTime(freq, t);
+      if (slideTo) o.frequency.exponentialRampToValueAtTime(slideTo, t + dur);
+      g.gain.setValueAtTime(vol || 0.12, t); g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+      o.connect(g).connect(actx.destination); o.start(t); o.stop(t + dur);
+    } catch (e) {}
+  }
+  const sfx = {
+    pop:    () => tone(620, 0.12, 'sine', 0.12, 980),
+    whoosh: () => tone(260, 0.28, 'triangle', 0.08, 880),
+    yay:    () => { tone(523, 0.14); tone(659, 0.14, 'sine', 0.12, 0, 0.12); tone(784, 0.3, 'sine', 0.12, 0, 0.24); },
+    oops:   () => tone(330, 0.22, 'triangle', 0.09, 220),
+    stamp:  () => { tone(140, 0.22, 'square', 0.1, 60); tone(880, 0.25, 'sine', 0.08, 0, 0.18); }
+  };
   const reduceMotion = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Speak a word (uses the device's built-in voices; nothing is sent to us)
-  document.querySelectorAll('.say').forEach(btn => {
-    btn.addEventListener('click', () => {
-      if (!('speechSynthesis' in window)) return;
-      speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance(btn.dataset.say);
-      u.lang = btn.dataset.lang; u.rate = 0.8;
-      const v = speechSynthesis.getVoices().find(v => v.lang.replace('_','-').startsWith(btn.dataset.lang.split('-')[0]));
-      if (v) u.voice = v;
-      btn.classList.add('playing');
-      u.onend = u.onerror = () => btn.classList.remove('playing');
-      speechSynthesis.speak(u);
-    });
+  // Say hello (friend cards and the big Billy/Ajay circles at the top)
+  document.querySelectorAll('.say, .pal').forEach(btn => {
+    btn.addEventListener('click', () => { sfx.pop(); setTimeout(() => speak(btn.dataset.say, btn.dataset.lang, btn), 120); });
   });
 
-  // Flip cards
-  document.querySelectorAll('.flip').forEach(c => c.addEventListener('click', () => c.classList.toggle('flipped')));
+  // Flip cards: whoosh, then read the fun fact out loud
+  document.querySelectorAll('.flip').forEach(c => c.addEventListener('click', () => {
+    c.classList.toggle('flipped'); sfx.whoosh();
+    if (c.classList.contains('flipped')) {
+      const back = c.querySelector('.back');
+      speak([...back.querySelectorAll('h3, p')].map(e => e.textContent.trim()).join('. '));
+    } else if ('speechSynthesis' in window) speechSynthesis.cancel();
+  }));
 
   // Passport
   const note = document.getElementById('passport-note');
@@ -752,7 +967,16 @@
   let m = 0;
   document.querySelectorAll('.stamp').forEach(s => s.addEventListener('click', () => {
     note.textContent = s.dataset.msg || mysteryMsgs[m++ % mysteryMsgs.length];
+    sfx.pop(); speak(note.textContent);
   }));
+
+  // Passport progress: China (home) counts as the first stamp
+  const TOTAL_STAMPS = document.querySelectorAll('.stamp').length;
+  function drawStampCount() {
+    const n = 1 + (store.get('billy-stamps', []).includes('india') ? 1 : 0);
+    document.getElementById('stamp-count').textContent = `⭐ ${n} of ${TOTAL_STAMPS} stamps collected`;
+    document.getElementById('stamp-bar').style.width = (n / TOTAL_STAMPS * 100) + '%';
+  }
 
   // India stamp: earned by winning the quiz, remembered on this device
   const indiaStamp = document.getElementById('stamp-india');
@@ -762,12 +986,15 @@
     if (animate) indiaStamp.classList.add('just-earned');
     document.getElementById('india-label').textContent = 'Earned!';
     indiaStamp.dataset.msg = 'Stamped! You and Billy visited Ajay in India.';
+    document.getElementById('earn-cta').hidden = true;
+    drawStampCount();
   }
   if (store.get('billy-stamps', []).includes('india')) showIndiaEarned(false);
+  drawStampCount();
 
   // ---------- India quiz ----------
   const QUIZ = [
-    { q: "How did Billy get to India?", img: "images/plane.jpg", a: [["✈️", "By plane"], ["🚢", "By boat"], ["🚲", "By bike"]], right: 0, fact: "Zoom! Billy flew his little red plane." },
+    { q: "How did Billy get to India?", img: "images/plane.jpg", a: [["✈️", "Plane"], ["🚢", "Boat"], ["🚲", "Bike"]], right: 0, fact: "Zoom! Billy flew his little red plane." },
     { q: "What does “namaste” mean?", img: "images/ajay.jpg", a: [["👋", "Hello"], ["😴", "Good night"], ["😋", "Yummy"]], right: 0, fact: "Namaste means hello. Can you say it? nuh-muh-STAY!" },
     { q: "Which animal is on the map of India?", img: "images/card-map.jpg", a: [["🦒", "Giraffe"], ["🐘", "Elephant"], ["🐧", "Penguin"]], right: 1, fact: "An elephant! Elephants live in the forests of India." },
     { q: "What shape is a samosa?", img: "images/card-food.jpg", a: [["⚪", "Circle"], ["🟦", "Square"], ["🔺", "Triangle"]], right: 2, fact: "A samosa is a crispy triangle!" },
@@ -785,7 +1012,8 @@
       <div class="q-row"><p class="q-text">${item.q}</p><button class="q-read" type="button" aria-label="Read the question out loud">🔊</button></div>
       <div class="answers">${item.a.map((x, i) => `<button class="ans" type="button" data-i="${i}"><span class="e" aria-hidden="true">${x[0]}</span>${x[1]}</button>`).join('')}</div>
       <p class="feedback" id="feedback"></p>`;
-    quizBody.querySelector('.q-read').onclick = () => speak(item.q + ' ' + item.a.map(x => x[1]).join('? ') + '?');
+    const readBtn = quizBody.querySelector('.q-read');
+    readBtn.onclick = () => speak(item.q + ' ' + item.a.map(x => x[1]).join('? ') + '?', 'en-US', readBtn);
     quizBody.querySelectorAll('.ans').forEach(b => b.onclick = () => answer(b, +b.dataset.i));
   }
   function answer(btn, i) {
@@ -794,11 +1022,12 @@
     if (i === item.right) {
       locked = true; btn.classList.add('right');
       fb.className = 'feedback good'; fb.textContent = '⭐ Yes! ' + item.fact;
-      speak('Yes! ' + item.fact);
-      setTimeout(() => { qi++; qi < QUIZ.length ? showQuestion() : win(); }, 1800);
+      sfx.yay(); setTimeout(() => speak('Yes! ' + item.fact), 350);
+      setTimeout(() => { qi++; qi < QUIZ.length ? showQuestion() : win(); }, 2400);
     } else {
       btn.classList.remove('wrong'); void btn.offsetWidth; btn.classList.add('wrong');
       fb.className = 'feedback try'; fb.textContent = 'Not quite. Try again!';
+      sfx.oops(); speak('Not quite. Try again!');
     }
   }
   function win() {
@@ -816,7 +1045,7 @@
           <button class="btn btn-ghost small" type="button" id="quiz-again">↺ Play again</button>
         </div>
       </div>`;
-    speak('You earned your India stamp! Great job, explorer!');
+    sfx.stamp(); setTimeout(() => speak('You earned your India stamp! Great job, explorer!'), 450);
     document.getElementById('quiz-again').onclick = () => { qi = 0; showQuestion(); };
     confetti();
   }
@@ -861,10 +1090,10 @@
       const b = document.createElement('button');
       b.type = 'button'; b.className = 'swatch'; b.style.background = hex;
       b.setAttribute('role', 'radio'); b.setAttribute('aria-label', name); b.setAttribute('aria-checked', i === 0);
-      b.onclick = () => { current = hex; pal.querySelectorAll('.swatch').forEach(s => s.setAttribute('aria-checked', s === b)); };
+      b.onclick = () => { current = hex; sfx.pop(); pal.querySelectorAll('.swatch').forEach(s => s.setAttribute('aria-checked', s === b)); };
       pal.appendChild(b);
     });
-    svg.addEventListener('click', e => { if (e.target.classList.contains('part')) e.target.setAttribute('fill', current); });
+    svg.addEventListener('click', e => { if (e.target.classList.contains('part')) { e.target.setAttribute('fill', current); tone(500 + Math.random() * 500, 0.1, 'sine', 0.08); } });
     document.getElementById('color-clear').onclick = () => svg.querySelectorAll('.part').forEach(p => p.setAttribute('fill', '#ffffff'));
     document.getElementById('color-save').onclick = () => {
       const xml = new XMLSerializer().serializeToString(svg);
@@ -935,6 +1164,28 @@
       document.getElementById('gate-err').textContent = 'Not quite. Please ask a grown-up to help!';
     }
   });
+
+  // Read-aloud button next to every kids' section title
+  document.querySelectorAll('main > section:not(.grownups):not(.hero) .section-head h2').forEach(h => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'read-btn'; b.textContent = '🔊';
+    b.setAttribute('aria-label', 'Read this to me');
+    b.onclick = () => { const lead = h.parentElement.querySelector('.lead'); speak(h.firstChild.textContent.trim() + '. ' + (lead ? lead.textContent : ''), 'en-US', b); };
+    h.appendChild(b);
+  });
+
+  // Phone menu bar: highlight the section on screen
+  const tabs = [...document.querySelectorAll('.tabbar a')];
+  const tabFor = { home: 'home', friends: 'friends', visiting: 'friends', play: 'play', passport: 'passport', watch: 'watch', book: 'watch', grownups: 'watch' };
+  if ('IntersectionObserver' in window) {
+    const tio = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      const id = tabFor[e.target.id];
+      tabs.forEach(t => t.classList.toggle('active', t.getAttribute('href') === '#' + id));
+    }), { rootMargin: '-45% 0px -50% 0px' });
+    document.querySelectorAll('main > section[id]').forEach(s => tio.observe(s));
+  }
+  tabs.forEach(t => t.addEventListener('click', () => sfx.pop()));
 
   // Reveal on scroll
   const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => {
