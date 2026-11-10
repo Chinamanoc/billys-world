@@ -5,9 +5,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Billy's World of Friends</title>
 <meta name="description" content="Fly around the world with Billy as he visits his friends! Short, cheerful videos that teach kids ages 4–8 about places, food, festivals and words from every corner of the globe.">
-<meta property="og:title" content="Billy's World of Friends">
-<meta property="og:description" content="Fly around the world with Billy as he visits his friends.">
-<meta property="og:image" content="images/plane.jpg">
+<link rel="canonical" href="https://chinamanoc.github.io/billys-world/">
+<meta name="theme-color" content="#d93a2b">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://chinamanoc.github.io/billys-world/">
+<meta property="og:title" content="Billy's World of Friends: fly around the world with Billy!">
+<meta property="og:description" content="Free games, a free printable picture book, and cheerful videos that teach kids 4–8 about places, food, festivals and words from around the world.">
+<meta property="og:image" content="https://chinamanoc.github.io/billys-world/images/share.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%23d93a2b'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='white' font-family='Arial'%3E%E2%9C%88%3C/text%3E%3C/svg%3E">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Billy's World of Friends",
+  "url": "https://chinamanoc.github.io/billys-world/",
+  "description": "Educational adventures for kids ages 4–8. Billy flies around the world to visit his friends.",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Billy's World of Friends",
+    "email": "billysworldoffriends@gmail.com",
+    "sameAs": ["https://www.youtube.com/@BillysWorldofFriends"]
+  }
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
@@ -52,7 +75,7 @@
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
-  img { max-width: 100%; display: block; }
+  img { max-width: 100%; height: auto; display: block; }
   a { color: inherit; }
   h1, h2, h3 { font-family: "Fredoka", "Nunito", sans-serif; line-height: 1.1; margin: 0; text-wrap: balance; }
   h1 { font-size: clamp(40px, 7vw, 72px); font-weight: 700; letter-spacing: -0.01em; }
@@ -294,6 +317,73 @@
     html { scroll-behavior: auto; }
   }
   .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+  /* ---------- play ---------- */
+  .play { background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .play-grid { display: grid; gap: var(--s4); }
+  @media (min-width: 960px) { .play-grid { grid-template-columns: 1fr 1fr; align-items: start; } }
+  .game { background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius); padding: var(--s4); display: grid; gap: var(--s3); }
+  .game-top { display: flex; justify-content: space-between; align-items: center; gap: var(--s3); flex-wrap: wrap; }
+  .hint { font-weight: 800; font-size: 16px; color: var(--ink-soft); }
+  .dots { display: flex; gap: var(--s2); }
+  .dots i { width: 14px; height: 14px; border-radius: 50%; background: var(--line); transition: background-color 200ms var(--ease-std), transform 200ms var(--ease-pop); }
+  .dots i.on { background: var(--accent); }
+  .dots i.now { transform: scale(1.3); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .q-img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--radius-sm); }
+  .q-row { display: flex; align-items: center; gap: var(--s3); }
+  .q-text { font: 600 26px/1.25 "Fredoka", sans-serif; flex: 1; }
+  .q-read { flex: none; width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--line); background: var(--surface); cursor: pointer; font-size: 20px; }
+  .q-read:hover { border-color: var(--accent); }
+  .answers { display: grid; gap: var(--s2); grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+  .ans {
+    font: 800 20px/1.2 "Nunito", sans-serif; color: var(--ink); background: var(--surface); cursor: pointer;
+    border: 3px solid var(--line); border-radius: var(--radius-sm); padding: var(--s3); min-height: 64px;
+    display: flex; align-items: center; justify-content: center; gap: var(--s2);
+    transition: transform 200ms var(--ease-pop), border-color 200ms var(--ease-std), background-color 200ms var(--ease-std);
+  }
+  .ans:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .ans .e { font-size: 28px; }
+  .ans.right { background: #e3f6ea; border-color: #2fb36b; color: #1d7a46; }
+  .ans.wrong { animation: shake 280ms var(--ease-std); border-color: var(--accent); }
+  @keyframes shake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+  .feedback { min-height: 1.6em; font-weight: 800; text-align: center; }
+  .feedback.good { color: #1d7a46; }
+  .feedback.try { color: var(--accent); }
+  .win { text-align: center; display: grid; gap: var(--s3); justify-items: center; padding: var(--s3) 0; }
+  .win-stamp {
+    width: 168px; height: 168px; border-radius: 50%; border: 4px solid var(--accent); background: var(--accent-soft); color: var(--accent);
+    display: grid; place-items: center; font: 700 28px/1.1 "Fredoka", sans-serif; transform: rotate(-8deg);
+    animation: stampIn 280ms var(--ease-pop);
+  }
+  @keyframes stampIn { from { opacity: 0; transform: rotate(-8deg) scale(1.3); } }
+  .win h3 { font-size: 32px; }
+  .confetti { position: fixed; inset: 0; pointer-events: none; z-index: 50; overflow: hidden; }
+  .confetti i { position: absolute; top: -12px; width: 10px; height: 14px; border-radius: 2px; animation: fall linear forwards; }
+  @keyframes fall { to { transform: translateY(105vh) rotate(720deg); } }
+
+  .rangoli { width: 100%; max-width: 460px; height: auto; margin: 0 auto; display: block; touch-action: manipulation; }
+  .rangoli .part { cursor: pointer; transition: fill 160ms var(--ease-std); }
+  .palette { display: flex; flex-wrap: wrap; gap: var(--s2); justify-content: center; }
+  .swatch { width: 44px; height: 44px; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 0 0 1px var(--line); cursor: pointer; transition: transform 200ms var(--ease-pop); }
+  .swatch:hover { transform: scale(1.08); }
+  .swatch[aria-checked="true"] { box-shadow: 0 0 0 3px var(--ink); transform: scale(1.1); }
+  .color-actions { display: flex; gap: var(--s2); justify-content: center; flex-wrap: wrap; }
+  .btn.small { padding: var(--s2) var(--s3); font-size: 16px; }
+
+  .stamp.locked { border-style: dashed; color: var(--ink-soft); }
+  .stamp.locked .flag svg { filter: grayscale(1); opacity: .45; }
+  .stamp.just-earned { animation: stampIn 280ms var(--ease-pop); }
+
+  /* ---------- book ---------- */
+  .book { background: var(--surface-2); }
+  .book-grid { display: grid; gap: var(--s5); align-items: center; }
+  @media (min-width: 800px) { .book-grid { grid-template-columns: 300px 1fr; gap: var(--s6); } .book-cover img { max-width: 300px; } }
+  .book-cover img { width: 100%; max-width: 220px; margin: 0 auto; border-radius: 12px; box-shadow: var(--shadow-lift); transform: rotate(-2deg); }
+  .book-copy { display: grid; gap: var(--s3); justify-items: start; }
+
+  .gu-book .gu-cover { width: 120px; border-radius: 8px; transform: rotate(-2deg); }
+  .gu-card .btn { justify-self: start; }
+  .share-msg { min-height: 1.2em; color: var(--gold) !important; font-weight: 800; }
 </style>
 </head>
 <body>
@@ -304,8 +394,10 @@
     <nav class="links" aria-label="Main">
       <a href="#friends">Friends</a>
       <a href="#visiting">India</a>
+      <a href="#play">Play</a>
       <a href="#passport">Passport</a>
       <a href="#watch">Watch</a>
+      <a href="#book">Book</a>
     </nav>
     <a class="btn btn-ghost" href="#grownups">For grown-ups</a>
   </div>
@@ -322,6 +414,7 @@
         <p class="lead">Billy has friends everywhere. Hop on the plane and visit them! You'll see amazing places, taste yummy food and learn new words.</p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="https://www.youtube.com/@BillysWorldofFriends" target="_blank" rel="noopener">▶ Watch on YouTube</a>
+          <a class="btn btn-ghost" href="#play">🎮 Play the India game</a>
         </div>
       </div>
       <div class="hero-art">
@@ -415,18 +508,55 @@
     </div>
   </section>
 
+  <!-- PLAY -->
+  <section class="play" id="play">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Play</span>
+        <h2>Games from India</h2>
+        <p class="lead">Win the quiz to earn your India passport stamp. Then color a rangoli, just like on Diwali!</p>
+      </div>
+      <div class="play-grid">
+
+        <!-- QUIZ -->
+        <div class="game reveal" id="quiz" aria-live="polite">
+          <div class="game-top">
+            <h3>India quiz</h3>
+            <div class="dots" id="quiz-dots" aria-hidden="true"></div>
+          </div>
+          <div id="quiz-body"></div>
+        </div>
+
+        <!-- COLORING -->
+        <div class="game reveal">
+          <div class="game-top">
+            <h3>Color the rangoli</h3>
+            <span class="hint">Pick a color, then tap a shape</span>
+          </div>
+          <svg class="rangoli" id="rangoli" viewBox="-300 -300 600 600" role="img" aria-label="A rangoli pattern to color in"></svg>
+          <div class="palette" id="palette" role="radiogroup" aria-label="Colors"></div>
+          <div class="color-actions">
+            <button class="btn btn-ghost small" type="button" id="color-clear">↺ Start over</button>
+            <button class="btn btn-ghost small" type="button" id="color-save">⬇ Save my picture</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- PASSPORT -->
   <section class="passport" id="passport">
     <div class="wrap">
       <div class="section-head reveal">
         <span class="eyebrow">My passport</span>
         <h2>Collect every stamp!</h2>
-        <p class="lead">Billy gets a new stamp each time he visits a friend. Guess who he'll visit next!</p>
+        <p class="lead">Billy gets a new stamp each time he visits a friend. Win each trip's game to earn the stamp too. Guess who he'll visit next!</p>
       </div>
       <div class="passport-book reveal">
         <div class="stamps">
           <button class="stamp home" type="button" data-msg="This is home! Billy lives in China."><span><span class="flag" aria-hidden="true"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#de2910"/><polygon fill="#ffde00" points="5,2 6.2,5.4 9.8,5.4 6.9,7.6 8,11 5,8.9 2,11 3.1,7.6 0.2,5.4 3.8,5.4"/><circle cx="11" cy="2.5" r="0.9" fill="#ffde00"/><circle cx="13" cy="4.5" r="0.9" fill="#ffde00"/><circle cx="13" cy="7.5" r="0.9" fill="#ffde00"/><circle cx="11" cy="9.5" r="0.9" fill="#ffde00"/></svg></span><b>China</b><small>Home</small></span></button>
-          <button class="stamp done" type="button" data-msg="Stamped! Billy visited his friend Ajay in India."><span><span class="flag" aria-hidden="true"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="30" height="6.67" fill="#ff9933"/><rect y="13.33" width="30" height="6.67" fill="#138808"/><circle cx="15" cy="10" r="2.6" fill="none" stroke="#000080" stroke-width="0.6"/><circle cx="15" cy="10" r="0.6" fill="#000080"/></svg></span><b>India</b><small>Visited!</small></span></button>
+          <button class="stamp locked" type="button" id="stamp-india" data-msg="Win the India quiz in the Play section to earn this stamp!"><span><span class="flag" aria-hidden="true"><svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="30" height="6.67" fill="#ff9933"/><rect y="13.33" width="30" height="6.67" fill="#138808"/><circle cx="15" cy="10" r="2.6" fill="none" stroke="#000080" stroke-width="0.6"/><circle cx="15" cy="10" r="0.6" fill="#000080"/></svg></span><b>India</b><small id="india-label">Win the quiz!</small></span></button>
           <button class="stamp mystery" type="button"><span><span class="flag" aria-hidden="true">?</span><b>Mystery friend</b><small>Coming soon</small></span></button>
           <button class="stamp mystery" type="button"><span><span class="flag" aria-hidden="true">?</span><b>Mystery friend</b><small>Coming soon</small></span></button>
           <button class="stamp mystery" type="button"><span><span class="flag" aria-hidden="true">?</span><b>Mystery friend</b><small>Coming soon</small></span></button>
@@ -459,13 +589,31 @@
     </div>
   </section>
 
+  <!-- BOOK -->
+  <section class="book" id="book">
+    <div class="wrap book-grid">
+      <div class="book-cover reveal"><img src="images/book-cover.jpg" alt="Cover of the picture book Billy Visits India" width="480" height="768"></div>
+      <div class="book-copy reveal">
+        <span class="eyebrow">Billy's first book</span>
+        <h2>Billy Visits India</h2>
+        <p class="lead">Read the whole adventure! Billy flies over the Himalayas, says namaste, visits the Taj Mahal and celebrates Diwali with Ajay.</p>
+        <ul class="facts">
+          <li>A picture book for ages 4–8</li>
+          <li>Questions to answer on every page</li>
+          <li>First Hindi words and a quiz at the end</li>
+        </ul>
+        <a class="btn btn-primary" href="#grownups" data-open-grownups>📖 Grown-ups: get the book</a>
+      </div>
+    </div>
+  </section>
+
   <!-- GROWN-UPS -->
   <section class="grownups" id="grownups">
     <div class="wrap" style="display:grid; gap: var(--s5);">
       <div class="section-head" style="margin-bottom:0">
         <span class="eyebrow">For grown-ups</span>
         <h2>Hi, parents and teachers!</h2>
-        <p class="lead">This part of the site is for adults. It has activity ideas, printables and books we love.</p>
+        <p class="lead">This part of the site is for adults. It has Billy's books, free printables, classroom ideas and ways to share Billy.</p>
       </div>
 
       <noscript><style>#gate{display:none!important}.gu-content{display:grid!important}</style></noscript>
@@ -490,11 +638,35 @@
               <li>Kindness and curiosity about other cultures</li>
             </ul>
           </div>
-          <div class="gu-card">
-            <h3>Free printables</h3>
-            <p><b style="color:#fff">Billy Visits India</b>, a free 16-page picture book to print at home or in class. It includes the story, a rangoli coloring page, a passport page and a quiz.</p>
-            <a class="btn btn-primary" href="books/billy-visits-india.pdf" download style="justify-self:start">⬇ Download the free book (PDF)</a>
+          <div class="gu-card gu-book">
+            <h3>Billy Visits India</h3>
+            <img src="images/book-cover.jpg" alt="" width="480" height="768" class="gu-cover">
+            <p><b style="color:#fff">Kindle edition:</b> the full picture book on any Kindle, tablet or phone.</p>
+            <a class="btn btn-primary" id="kindle-btn" href="#" target="_blank" rel="noopener" hidden>Get it on Kindle · $2.99</a>
+            <p id="kindle-soon"><b style="color:var(--gold)">Kindle edition coming soon.</b></p>
+            <p><b style="color:#fff">Free printable edition:</b> 16 pages with the story, a rangoli coloring page, a passport page and a quiz.</p>
+            <a class="btn btn-ghost" href="books/billy-visits-india.pdf" download>⬇ Download the free PDF</a>
             <p class="disclosure">Square 8.5 × 8.5 in pages. Choose "Fit to page" when you print on regular paper.</p>
+          </div>
+          <div class="gu-card">
+            <h3>For teachers</h3>
+            <p>Billy fits right into lessons on maps, cultures, holidays and kindness. The free PDF is yours to print for your whole class.</p>
+            <ul>
+              <li>Read the book aloud, then play the India quiz together on the board</li>
+              <li>Color rangolis for Diwali</li>
+              <li>Find India on a classroom map</li>
+            </ul>
+            <a class="btn btn-ghost" href="mailto:billysworldoffriends@gmail.com?subject=Billy%20in%20my%20classroom">✉ Tell us about your class</a>
+          </div>
+          <div class="gu-card">
+            <h3>Share Billy</h3>
+            <p>Know a family or teacher who would love Billy? Sharing is the biggest way to help a small show grow.</p>
+            <button class="btn btn-primary" type="button" id="share-btn">↗ Share this site</button>
+            <p class="share-msg" id="share-msg" aria-live="polite"></p>
+            <div id="support-wrap" hidden>
+              <p>Want to help Billy fly to more countries?</p>
+              <a class="btn btn-ghost" id="support-btn" href="#" target="_blank" rel="noopener">♥ Support Billy</a>
+            </div>
           </div>
           <div class="gu-card">
             <h3>Billy's bookshelf</h3>
@@ -527,8 +699,29 @@
   const SITE_CONFIG = {
     // Episode 1's YouTube video ID: the part after "v=" in its link (e.g. "dQw4w9WgXcQ").
     // Leave empty until the video is live; the player shows "Episode 1 is coming soon!" until then.
-    episode1VideoId: ""
+    episode1VideoId: "",
+    // The book's public Amazon page, e.g. "https://www.amazon.com/dp/B0XXXXXXXX". Leave empty until it's live.
+    kindleUrl: "",
+    // Optional tip jar for grown-ups (Ko-fi, Buy Me a Coffee, Patreon…). Leave empty to hide the button.
+    supportUrl: ""
   };
+  const SITE_URL = "https://chinamanoc.github.io/billys-world/";
+
+  // Small helpers for this browser's saved progress (stamps). Never required: the page works without it.
+  const store = {
+    get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  };
+  function speak(text, lang) {
+    if (!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = lang || 'en-US'; u.rate = 0.85;
+    const v = speechSynthesis.getVoices().find(v => v.lang.replace('_','-').startsWith(u.lang.split('-')[0]));
+    if (v) u.voice = v;
+    speechSynthesis.speak(u);
+  }
+  const reduceMotion = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // Speak a word (uses the device's built-in voices; nothing is sent to us)
   document.querySelectorAll('.say').forEach(btn => {
@@ -559,6 +752,157 @@
   let m = 0;
   document.querySelectorAll('.stamp').forEach(s => s.addEventListener('click', () => {
     note.textContent = s.dataset.msg || mysteryMsgs[m++ % mysteryMsgs.length];
+  }));
+
+  // India stamp: earned by winning the quiz, remembered on this device
+  const indiaStamp = document.getElementById('stamp-india');
+  function showIndiaEarned(animate) {
+    indiaStamp.classList.remove('locked');
+    indiaStamp.classList.add('done');
+    if (animate) indiaStamp.classList.add('just-earned');
+    document.getElementById('india-label').textContent = 'Earned!';
+    indiaStamp.dataset.msg = 'Stamped! You and Billy visited Ajay in India.';
+  }
+  if (store.get('billy-stamps', []).includes('india')) showIndiaEarned(false);
+
+  // ---------- India quiz ----------
+  const QUIZ = [
+    { q: "How did Billy get to India?", img: "images/plane.jpg", a: [["✈️", "By plane"], ["🚢", "By boat"], ["🚲", "By bike"]], right: 0, fact: "Zoom! Billy flew his little red plane." },
+    { q: "What does “namaste” mean?", img: "images/ajay.jpg", a: [["👋", "Hello"], ["😴", "Good night"], ["😋", "Yummy"]], right: 0, fact: "Namaste means hello. Can you say it? nuh-muh-STAY!" },
+    { q: "Which animal is on the map of India?", img: "images/card-map.jpg", a: [["🦒", "Giraffe"], ["🐘", "Elephant"], ["🐧", "Penguin"]], right: 1, fact: "An elephant! Elephants live in the forests of India." },
+    { q: "What shape is a samosa?", img: "images/card-food.jpg", a: [["⚪", "Circle"], ["🟦", "Square"], ["🔺", "Triangle"]], right: 2, fact: "A samosa is a crispy triangle!" },
+    { q: "Diwali is the Festival of…", img: "images/card-diwali.jpg", a: [["❄️", "Snow"], ["🪔", "Lights"], ["🪁", "Kites"]], right: 1, fact: "Diwali is the Festival of Lights!" }
+  ];
+  const quizBody = document.getElementById('quiz-body'), quizDots = document.getElementById('quiz-dots');
+  let qi = 0, locked = false;
+  function drawDots() {
+    quizDots.innerHTML = QUIZ.map((_, i) => `<i class="${i < qi ? 'on' : ''} ${i === qi ? 'now' : ''}"></i>`).join('');
+  }
+  function showQuestion() {
+    const item = QUIZ[qi]; locked = false; drawDots();
+    quizBody.innerHTML = `
+      <img class="q-img" src="${item.img}" alt="">
+      <div class="q-row"><p class="q-text">${item.q}</p><button class="q-read" type="button" aria-label="Read the question out loud">🔊</button></div>
+      <div class="answers">${item.a.map((x, i) => `<button class="ans" type="button" data-i="${i}"><span class="e" aria-hidden="true">${x[0]}</span>${x[1]}</button>`).join('')}</div>
+      <p class="feedback" id="feedback"></p>`;
+    quizBody.querySelector('.q-read').onclick = () => speak(item.q + ' ' + item.a.map(x => x[1]).join('? ') + '?');
+    quizBody.querySelectorAll('.ans').forEach(b => b.onclick = () => answer(b, +b.dataset.i));
+  }
+  function answer(btn, i) {
+    if (locked) return;
+    const item = QUIZ[qi], fb = document.getElementById('feedback');
+    if (i === item.right) {
+      locked = true; btn.classList.add('right');
+      fb.className = 'feedback good'; fb.textContent = '⭐ Yes! ' + item.fact;
+      speak('Yes! ' + item.fact);
+      setTimeout(() => { qi++; qi < QUIZ.length ? showQuestion() : win(); }, 1800);
+    } else {
+      btn.classList.remove('wrong'); void btn.offsetWidth; btn.classList.add('wrong');
+      fb.className = 'feedback try'; fb.textContent = 'Not quite. Try again!';
+    }
+  }
+  function win() {
+    drawDots();
+    const had = store.get('billy-stamps', []);
+    if (!had.includes('india')) store.set('billy-stamps', had.concat('india'));
+    showIndiaEarned(true);
+    quizBody.innerHTML = `
+      <div class="win">
+        <div class="win-stamp">INDIA<br>★</div>
+        <h3>You earned your India stamp!</h3>
+        <p>It's in your passport now. Great job, explorer!</p>
+        <div class="color-actions">
+          <a class="btn btn-primary small" href="#passport">See my passport</a>
+          <button class="btn btn-ghost small" type="button" id="quiz-again">↺ Play again</button>
+        </div>
+      </div>`;
+    speak('You earned your India stamp! Great job, explorer!');
+    document.getElementById('quiz-again').onclick = () => { qi = 0; showQuestion(); };
+    confetti();
+  }
+  function confetti() {
+    if (reduceMotion) return;
+    const box = document.createElement('div'); box.className = 'confetti';
+    const colors = ['#d93a2b', '#f2b230', '#2fb36b', '#3a8ee6', '#ff9933', '#c03ad9'];
+    for (let i = 0; i < 80; i++) {
+      const c = document.createElement('i');
+      c.style.left = Math.random() * 100 + 'vw';
+      c.style.background = colors[i % colors.length];
+      c.style.animationDuration = (1.6 + Math.random() * 1.6) + 's';
+      c.style.animationDelay = Math.random() * 0.4 + 's';
+      box.appendChild(c);
+    }
+    document.body.appendChild(box);
+    setTimeout(() => box.remove(), 3800);
+  }
+  showQuestion();
+
+  // ---------- Rangoli coloring ----------
+  (function () {
+    const svg = document.getElementById('rangoli');
+    const NS = 'http://www.w3.org/2000/svg';
+    const base = { fill: '#ffffff', stroke: '#2a2238', 'stroke-width': 4, 'stroke-linejoin': 'round' };
+    const el = (n, a) => { const e = document.createElementNS(NS, n); for (const k in a) e.setAttribute(k, a[k]); e.classList.add('part'); svg.appendChild(e); return e; };
+    el('circle', { r: 285, ...base, 'stroke-width': 5 });
+    for (let i = 0; i < 24; i++) el('circle', { cx: 0, cy: -258, r: 26, transform: `rotate(${i * 15})`, ...base });
+    el('circle', { r: 232, ...base });
+    for (let i = 0; i < 12; i++) el('path', { d: 'M0,-90 C40,-140 40,-190 0,-225 C-40,-190 -40,-140 0,-90 Z', transform: `rotate(${i * 30})`, ...base });
+    for (let i = 0; i < 12; i++) el('path', { d: 'M0,-110 C16,-140 16,-170 0,-195 C-16,-170 -16,-140 0,-110 Z', transform: `rotate(${i * 30})`, ...base, 'stroke-width': 3 });
+    for (let i = 0; i < 12; i++) el('circle', { cx: 0, cy: -190, r: 11, transform: `rotate(${i * 30 + 15})`, ...base });
+    el('circle', { r: 92, ...base });
+    for (let i = 0; i < 8; i++) el('path', { d: 'M0,-20 C30,-45 30,-70 0,-88 C-30,-70 -30,-45 0,-20 Z', transform: `rotate(${i * 45})`, ...base });
+    el('circle', { r: 26, ...base });
+    el('circle', { r: 9, ...base });
+
+    const COLORS = [['#e53935', 'red'], ['#ff9933', 'orange'], ['#fdd835', 'yellow'], ['#43a047', 'green'], ['#1e88e5', 'blue'], ['#8e24aa', 'purple'], ['#ec407a', 'pink'], ['#ffffff', 'white (eraser)']];
+    let current = COLORS[0][0];
+    const pal = document.getElementById('palette');
+    COLORS.forEach(([hex, name], i) => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'swatch'; b.style.background = hex;
+      b.setAttribute('role', 'radio'); b.setAttribute('aria-label', name); b.setAttribute('aria-checked', i === 0);
+      b.onclick = () => { current = hex; pal.querySelectorAll('.swatch').forEach(s => s.setAttribute('aria-checked', s === b)); };
+      pal.appendChild(b);
+    });
+    svg.addEventListener('click', e => { if (e.target.classList.contains('part')) e.target.setAttribute('fill', current); });
+    document.getElementById('color-clear').onclick = () => svg.querySelectorAll('.part').forEach(p => p.setAttribute('fill', '#ffffff'));
+    document.getElementById('color-save').onclick = () => {
+      const xml = new XMLSerializer().serializeToString(svg);
+      const img = new Image();
+      img.onload = () => {
+        const c = document.createElement('canvas'); c.width = c.height = 1200;
+        const ctx = c.getContext('2d'); ctx.fillStyle = '#fff8ee'; ctx.fillRect(0, 0, 1200, 1200);
+        ctx.drawImage(img, 0, 0, 1200, 1200);
+        const a = document.createElement('a'); a.download = 'my-rangoli.png'; a.href = c.toDataURL('image/png'); a.click();
+      };
+      img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(xml.replace('<svg', '<svg width="1200" height="1200"'));
+    };
+  })();
+
+  // ---------- Books, sharing and support (grown-ups) ----------
+  if (SITE_CONFIG.kindleUrl) {
+    const k = document.getElementById('kindle-btn');
+    k.href = SITE_CONFIG.kindleUrl; k.hidden = false;
+    document.getElementById('kindle-soon').hidden = true;
+  }
+  if (SITE_CONFIG.supportUrl) {
+    document.getElementById('support-btn').href = SITE_CONFIG.supportUrl;
+    document.getElementById('support-wrap').hidden = false;
+  }
+  document.getElementById('share-btn').onclick = async () => {
+    const msg = document.getElementById('share-msg');
+    const data = { title: "Billy's World of Friends", text: "Free games and a free picture book that teach kids about the world!", url: SITE_URL };
+    try {
+      if (navigator.share) { await navigator.share(data); msg.textContent = 'Thank you for sharing!'; return; }
+      await navigator.clipboard.writeText(SITE_URL); msg.textContent = 'Link copied! Paste it in a message or post.';
+    } catch (e) {
+      if (e && e.name === 'AbortError') return;
+      msg.textContent = 'Copy this link: ' + SITE_URL;
+    }
+  };
+  // "Grown-ups: get the book" jumps to the grown-up check
+  document.querySelectorAll('[data-open-grownups]').forEach(a => a.addEventListener('click', () => {
+    setTimeout(() => { const i = document.getElementById('gate-answer'); if (i && !document.getElementById('gate').hidden) i.focus({ preventScroll: true }); }, 400);
   }));
 
   // Episode 1 player: shows "coming soon" until a video ID is set above, then loads only when tapped
