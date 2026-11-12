@@ -531,6 +531,44 @@
   .earn-cta { display: flex; justify-content: center; margin-top: var(--s3); }
   .pulse { animation: glow 1.6s var(--ease-std) infinite; }
   @keyframes glow { 0%, 100% { box-shadow: 0 4px 0 #a92718, 0 0 0 0 rgba(217,58,43,.45); } 50% { box-shadow: 0 4px 0 #a92718, 0 0 0 12px rgba(217,58,43,0); } }
+
+  /* ---------- final polish ---------- */
+  /* 1. Say hello: round portrait beside the name, hello button right under the name */
+  .friend { grid-template-columns: 128px 1fr; align-items: center; gap: var(--s3); padding: var(--s4); }
+  .friend > img {
+    width: 128px; height: 128px; aspect-ratio: 1; border-radius: 50%; object-fit: cover;
+    border: 5px solid #fff; box-shadow: var(--shadow);
+  }
+  .friend > img { object-position: 50% 40%; }
+
+  .friend-body { padding: 0; gap: var(--s2); }
+  .friend-body .say { order: 1; }
+  .friend-body .facts { order: 2; font-size: 16px; }
+  @media (max-width: 520px) {
+    /* phones: face + name side by side, then a full-width hello button */
+    .friend { grid-template-columns: 96px 1fr; padding: var(--s3); row-gap: var(--s3); }
+    .friend > img { width: 96px; height: 96px; }
+    .friend-body { display: contents; }
+    .friend-body > div { grid-column: 2; }
+    .friend-body .say { grid-column: 1 / -1; justify-self: stretch; }
+    .friend-body .facts { grid-column: 1 / -1; }
+  }
+
+  /* 2. Top of the page on phones: shorter words so the buttons show on the first screen */
+  .lead.short { display: none; }
+  @media (max-width: 879px) {
+    .hero .lead.long, .hero .eyebrow { display: none; }
+    .hero .lead.short { display: block; }
+    .scene { max-width: 300px; }
+    .hero-grid { gap: var(--s4); }
+    .hero-copy { gap: var(--s3); }
+  }
+
+  /* 4. Section titles on small phones: keep the title and its speaker button tidy */
+  @media (max-width: 420px) {
+    h2 { font-size: 28px; }
+    .read-btn { width: 38px; height: 38px; font-size: 17px; margin-left: 6px; }
+  }
 </style>
 </head>
 <body>
@@ -565,7 +603,8 @@
       <div class="hero-copy">
         <span class="eyebrow">First stop: India</span>
         <h1>Fly around the world with <span class="hl">Billy!</span></h1>
-        <p class="lead">Billy has friends everywhere. Hop on the plane and visit them! You'll see amazing places, taste yummy food and learn new words.</p>
+        <p class="lead long">Billy has friends everywhere. Hop on the plane and visit them! You'll see amazing places, taste yummy food and learn new words.</p>
+        <p class="lead short">Hop on the plane and visit Billy's friends!</p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="https://www.youtube.com/@BillysWorldofFriends" target="_blank" rel="noopener">▶ Watch on YouTube</a>
           <a class="btn btn-ghost" href="#play">🎮 Play the India game</a>
@@ -598,7 +637,7 @@
       </div>
       <div class="friend-grid">
         <article class="friend reveal">
-          <img src="images/billy.jpg" alt="Billy, a smiling boy with round glasses, talking on the phone" width="720" height="640">
+          <img src="images/billy-face.jpg" alt="Billy, a smiling boy with round glasses" width="320" height="320">
           <div class="friend-body">
             <div>
               <h3>Billy</h3>
@@ -615,7 +654,7 @@
           </div>
         </article>
         <article class="friend reveal">
-          <img src="images/ajay.jpg" alt="Ajay, a smiling boy with curly hair, talking on the phone" width="720" height="640">
+          <img src="images/ajay-face.jpg" alt="Ajay, a smiling boy with curly hair" width="320" height="320">
           <div class="friend-body">
             <div>
               <h3>Ajay <span class="say-it">(say it "AY-jay")</span></h3>
@@ -1176,7 +1215,7 @@
 
   // Phone menu bar: highlight the section on screen
   const tabs = [...document.querySelectorAll('.tabbar a')];
-  const tabFor = { home: 'home', friends: 'friends', visiting: 'friends', play: 'play', passport: 'passport', watch: 'watch', book: 'watch', grownups: 'watch' };
+  const tabFor = { home: 'home', friends: 'friends', visiting: 'friends', play: 'play', passport: 'passport', watch: 'watch', book: '', grownups: '' };  // no tab lit for the book and grown-ups areas
   if ('IntersectionObserver' in window) {
     const tio = new IntersectionObserver(es => es.forEach(e => {
       if (!e.isIntersecting) return;
