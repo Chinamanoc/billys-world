@@ -532,6 +532,38 @@
   .pulse { animation: glow 1.6s var(--ease-std) infinite; }
   @keyframes glow { 0%, 100% { box-shadow: 0 4px 0 #a92718, 0 0 0 0 rgba(217,58,43,.45); } 50% { box-shadow: 0 4px 0 #a92718, 0 0 0 12px rgba(217,58,43,0); } }
 
+  /* ---------- Billy's Shorts ---------- */
+  .shorts { margin-bottom: var(--s6); }
+  .shorts-title { font-size: 24px; margin-bottom: var(--s3); }
+  .shorts-row {
+    display: flex; gap: var(--s3); overflow-x: auto; scroll-snap-type: x mandatory;
+    padding: var(--s1) var(--s1) var(--s3); margin: 0 calc(-1 * var(--s1)); scrollbar-width: thin;
+  }
+  .short {
+    flex: 0 0 260px; scroll-snap-align: start; background: var(--surface); border-radius: var(--radius);
+    padding: 10px; box-shadow: var(--shadow); display: grid; align-content: start; gap: var(--s1);
+  }
+  @media (max-width: 719px) { .short { flex-basis: 74%; } }
+  .short-media { position: relative; aspect-ratio: 9 / 16; border-radius: var(--radius-sm); overflow: hidden; background: #1d1828; }
+  .short-media video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .big-play {
+    position: absolute; inset: 0; margin: auto; width: 84px; height: 84px; border-radius: 50%; border: 0; cursor: pointer;
+    background: var(--accent); color: #fff; font-size: 32px; padding-left: 6px; box-shadow: 0 5px 0 #a92718, 0 0 0 8px rgba(255,255,255,.35);
+    transition: transform 200ms var(--ease-pop);
+  }
+  .big-play:hover { transform: scale(1.08); }
+  .new-badge {
+    position: absolute; top: 10px; left: 10px; z-index: 1; background: var(--gold); color: var(--ink);
+    font: 800 13px/1 "Nunito", sans-serif; padding: 6px 10px; border-radius: 999px; box-shadow: 0 2px 0 rgba(0,0,0,.15);
+  }
+  .short.playing .new-badge, .short.playing .big-play { display: none; }
+  .short h4 { font: 700 18px/1.25 "Fredoka", sans-serif; margin: var(--s2) 6px 0; }
+  .short p { font-size: 15px; line-height: 1.45; color: var(--ink-soft); margin: 0 6px 6px; }
+  .soon-card .short-media { display: grid; place-items: center; background: var(--surface-2); text-align: center; font: 700 20px/1.4 "Fredoka", sans-serif; color: var(--ink-soft); }
+  .soon-card .short-media span { font-size: 20px; }
+  .credit-line { font-size: 13px; color: var(--ink-soft); margin-top: var(--s2); }
+  .credit-line a { color: inherit; }
+
   /* ---------- final polish ---------- */
   /* 1. Say hello: round portrait beside the name, hello button right under the name */
   .friend { grid-template-columns: 128px 1fr; align-items: center; gap: var(--s3); padding: var(--s4); }
@@ -784,7 +816,33 @@
       <div class="section-head reveal">
         <span class="eyebrow">Watch</span>
         <h2>Billy's adventures</h2>
+        <p class="lead">Tap a video to watch!</p>
       </div>
+
+      <!-- SHORTS: add the next Short by copying one <article class="short"> block -->
+      <div class="shorts reveal">
+        <h3 class="shorts-title">🎬 Billy's Shorts</h3>
+        <div class="shorts-row">
+          <article class="short">
+            <div class="short-media">
+              <span class="new-badge">NEW!</span>
+              <video preload="none" playsinline poster="videos/short1-spicy.jpg" width="720" height="1280"
+                     aria-label="HOW SPICY?! Billy Tries Street Food in India">
+                <source src="videos/short1-spicy.mp4" type="video/mp4">
+              </video>
+              <button class="big-play" type="button" aria-label="Play: HOW SPICY?! Billy Tries Street Food in India">▶</button>
+            </div>
+            <h4>HOW SPICY?! Billy Tries Street Food in India</h4>
+            <p>Billy likes spicy food… until one bite turns his face bright red! Ajay helps with a cool mango lassi.</p>
+          </article>
+          <article class="short soon-card" aria-label="More Shorts coming soon">
+            <div class="short-media"><span>🍿<br>More Shorts<br>coming soon!</span></div>
+          </article>
+        </div>
+        <p class="credit-line">Made with AI animation. Music: “Carefree” by Kevin MacLeod (<a href="https://incompetech.com" target="_blank" rel="noopener">incompetech.com</a>), licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">Creative Commons: By Attribution 4.0</a>.</p>
+      </div>
+
+      <h3 class="shorts-title">📺 Full episodes</h3>
       <div class="ep-grid">
         <div class="player reveal" id="player">
           <div class="duo"><img class="b" src="images/billy.jpg" alt="" width="720" height="640"><img class="a" src="images/ajay.jpg" alt="" width="720" height="640"></div>
@@ -1211,6 +1269,23 @@
     b.setAttribute('aria-label', 'Read this to me');
     b.onclick = () => { const lead = h.parentElement.querySelector('.lead'); speak(h.firstChild.textContent.trim() + '. ' + (lead ? lead.textContent : ''), 'en-US', b); };
     h.appendChild(b);
+  });
+
+  // Billy's Shorts: big play button, one video at a time, voices stop while a video plays
+  document.querySelectorAll('.short').forEach(card => {
+    const video = card.querySelector('video'), play = card.querySelector('.big-play');
+    if (!video || !play) return;
+    play.addEventListener('click', () => {
+      if ('speechSynthesis' in window) speechSynthesis.cancel();
+      document.querySelectorAll('.short video').forEach(v => { if (v !== video) v.pause(); });
+      video.controls = true; card.classList.add('playing');
+      video.play().catch(() => {});
+    });
+    video.addEventListener('play', () => {
+      document.querySelectorAll('.short video').forEach(v => { if (v !== video) v.pause(); });
+      if ('speechSynthesis' in window) speechSynthesis.cancel();
+    });
+    video.addEventListener('ended', () => { video.controls = false; card.classList.remove('playing'); video.load(); });
   });
 
   // Phone menu bar: highlight the section on screen
